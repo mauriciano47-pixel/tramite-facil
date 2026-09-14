@@ -1,0 +1,28 @@
+# Archivos de entorno (NUNCA subir al repositorio)
+.env
+.env.local
+.env.production
+
+# Dependencias de Node (si se instalan localmente)
+node_modules/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editores de código
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos temporales
+*.tmp
+*.bak
+
+.vercel
