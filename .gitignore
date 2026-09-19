@@ -26,3 +26,6 @@ npm-debug.log*
 *.bak
 
 .vercel
+
+# V-GUARD Auto-Hardening
+scratch/
