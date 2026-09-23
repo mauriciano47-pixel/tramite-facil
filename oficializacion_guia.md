@@ -1,6 +1,6 @@
-# Guía para Oficializar y Publicar la App "Trámite Fácil"
+# Guía de Arquitectura y Escalabilidad — "Trámite Fácil"
 
-Esta guía detalla los pasos técnicos, de seguridad y legales necesarios para llevar el prototipo actual a una aplicación web de producción abierta al público.
+Esta guía detalla los pasos técnicos, de seguridad y legales para el mantenimiento, escalabilidad y posible desacople a backend serverless de la aplicación oficial consolidada.
 
 ---
 

@@ -90,7 +90,7 @@
 
       <!-- Panel: Pegar Texto -->
       <div class="panel active" id="panel-text" role="tabpanel" aria-labelledby="tab-text">
-        <textarea id="doc-text" placeholder="Pega aquí el texto del documento legal o notificación oficial…"></textarea>
+        <textarea id="doc-text" placeholder="Pega aquí el texto del documento legal o notificación oficial…" aria-label="Texto del documento legal o notificación oficial a analizar"></textarea>
         <button class="btn-analyze" id="btn-text-analyze">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
           Analizar documento pegado
@@ -115,8 +115,8 @@
 
         </div>
 
-        <input type="file" id="camera-input" class="hidden-input" accept="image/*" capture="environment" />
-        <input type="file" id="file-input" class="hidden-input" accept="image/*,application/pdf" />
+        <input type="file" id="camera-input" class="hidden-input" accept="image/*" capture="environment" aria-label="Capturar fotografía del documento con la cámara" />
+        <input type="file" id="file-input" class="hidden-input" accept="image/*,application/pdf" aria-label="Seleccionar archivo o imagen del documento" />
         
         <div id="media-status" class="media-status-msg" style="display:none;"></div>
         
@@ -235,7 +235,7 @@
 
   <!-- PIE DE PÁGINA -->
   <footer>
-    <div>TrámiteFácil · Prototipo de Accesibilidad · Toma decisiones legales siempre con asesoría profesional.</div>
+    <div>TrámiteFácil · Aplicación Oficial de Accesibilidad Ciudadana · Toma decisiones legales siempre con asesoría profesional.</div>
     <div class="dev-credit">desarrollado por mauricio uribe maldonado</div>
   </footer>
 

@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/forms": "error",
+    "axe/text-alternatives": "error",
+    "axe/aria": "error",
+    "axe/language": "error",
+    "axe/name-role-value": "error"
+  }
+}
