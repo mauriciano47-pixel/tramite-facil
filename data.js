@@ -219,7 +219,7 @@ Firma: ____________________________________
     ],
     chatResponses: {
       abogado: "Sí, es altamente recomendable (y a veces obligatorio) ir con abogado para asegurar que tus derechos estén defendidos de forma correcta.",
-      inasistencia: "Si no asistes, el juez asumirá que aceptas los cargos de la demanda y dictará sentencia en tu contra inmediatamente. ¡No faltes!",
+      inasistencia: "Si no asistes o no te presentas, el tribunal declarará tu situación en rebeldía procesal y dictará sentencia en tu contra sin escuchar tu versión. ¡Es fundamental acudir o justificar formalmente tu ausencia antes de la fecha fijada!",
       default: "Esta citación es un asunto serio. Te aconsejo que lleves este papel a un abogado de confianza o solicites asesoría gratuita de oficio en el colegio de abogados de tu ciudad de inmediato."
     },
     draftTemplates: {

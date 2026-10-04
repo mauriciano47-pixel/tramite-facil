@@ -885,15 +885,15 @@ IMPORTANTE: Devuelve ÚNICAMENTE el texto formal del escrito listo para imprimir
         const queryLower = query.toLowerCase();
         
         if (currentActiveData && currentActiveData.chatResponses) {
-          if (queryLower.includes("plazo") || queryLower.includes("cuando") || queryLower.includes("fecha") || queryLower.includes("limite") || queryLower.includes("tiempo")) {
+          if (queryLower.includes("plazo") || queryLower.includes("cuando") || queryLower.includes("fecha") || queryLower.includes("limite") || queryLower.includes("tiempo") || queryLower.includes("vence") || queryLower.includes("cuanto tiempo")) {
             responseText = currentActiveData.chatResponses.plazo || currentActiveData.chatResponses.default;
-          } else if (queryLower.includes("documento") || queryLower.includes("papel") || queryLower.includes("requisito") || queryLower.includes("que llevar")) {
+          } else if (queryLower.includes("documento") || queryLower.includes("papel") || queryLower.includes("requisito") || queryLower.includes("que llevar") || queryLower.includes("presentar")) {
             responseText = currentActiveData.chatResponses.documento || currentActiveData.chatResponses.default;
-          } else if (queryLower.includes("descuento") || queryLower.includes("pagar") || queryLower.includes("dinero") || queryLower.includes("multa")) {
+          } else if (queryLower.includes("descuento") || queryLower.includes("pagar") || queryLower.includes("dinero") || queryLower.includes("multa") || queryLower.includes("costo") || queryLower.includes("rebaja")) {
             responseText = currentActiveData.chatResponses.descuento || currentActiveData.chatResponses.default;
-          } else if (queryLower.includes("abogado") || queryLower.includes("defensa") || queryLower.includes("juicio") || queryLower.includes("juez")) {
+          } else if (queryLower.includes("abogado") || queryLower.includes("defensa") || queryLower.includes("juicio") || queryLower.includes("juez") || queryLower.includes("letrado")) {
             responseText = currentActiveData.chatResponses.abogado || currentActiveData.chatResponses.default;
-          } else if (queryLower.includes("inasistencia") || queryLower.includes("no ir") || queryLower.includes("faltar")) {
+          } else if (queryLower.includes("inasistencia") || queryLower.includes("no ir") || queryLower.includes("no voy") || queryLower.includes("no asisto") || queryLower.includes("no puedo ir") || queryLower.includes("no puedo asistir") || queryLower.includes("faltar") || queryLower.includes("falto") || queryLower.includes("rebeldia") || queryLower.includes("incomparecencia")) {
             responseText = currentActiveData.chatResponses.inasistencia || currentActiveData.chatResponses.default;
           } else {
             responseText = currentActiveData.chatResponses.default;
