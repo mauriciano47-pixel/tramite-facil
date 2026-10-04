@@ -53,8 +53,13 @@ La aplicación cuenta con un modo de **Simulación Guiada** integrado que funcio
    - **Pasos a seguir:** Lista enumerada de acciones ordenadas cronológicamente.
    - **Documentos que necesitas:** Papeles y comprobantes requeridos.
    - **Fechas y advertencias:** Plazos fatales (días hábiles vs. corridos) y consecuencias de inacción.
-3. **Lectura en voz alta:** Pulsa el botón de altavoz `🔊` en cualquier bloque para escuchar el texto leído con cadencia pausada y clara.
-4. **Preguntas al Asistente:** Escribe tus dudas en el chat inferior para recibir aclaraciones empáticas en un máximo de 3 oraciones.
+3. **Generar Carta Oficial de Respuesta en 1 Clic (Innovación v1.2.0):**
+   - Selecciona el tipo de contestación: **Solicitud de Prórroga** (pedir más tiempo), **Aportar Documentación** (entregar justificantes requeridos) o **Alegaciones / Descargo** (manifestar disconformidad formal).
+   - Revisa el texto en el folio editable y completa los datos entre corchetes `[COMO ESTE]`.
+   - Utiliza **"Copiar Escrito"** para llevarlo al portapapeles o **"Imprimir / PDF"** para obtener una hoja formal A4 completamente limpia sin los menús de la web.
+   - Si tienes API Key de Gemini configurada, pulsa **"Regenerar con IA"** para redactar un escrito altamente personalizado según el documento específico analizado.
+4. **Lectura en voz alta:** Pulsa el botón de altavoz `🔊` en cualquier bloque o en el folio para escuchar el texto leído con cadencia pausada y clara.
+5. **Preguntas al Asistente:** Escribe tus dudas en el chat inferior para recibir aclaraciones empáticas en un máximo de 3 oraciones.
 
 ---
 
