@@ -280,6 +280,8 @@ document.addEventListener("DOMContentLoaded", () => {
         dataKey = "multa";
       } else if (textLower.includes("juez") || textLower.includes("juzgado") || textLower.includes("tribunal") || textLower.includes("citación") || textLower.includes("demanda")) {
         dataKey = "juzgado";
+      } else if (textLower.includes("sueldo") || textLower.includes("remuneracion") || textLower.includes("remuneración") || textLower.includes("nomina") || textLower.includes("nómina") || textLower.includes("imponible") || textLower.includes("afp") || textLower.includes("fonasa") || textLower.includes("isapre") || textLower.includes("gratificacion") || textLower.includes("gratificación") || textLower.includes("liquido a pagar") || textLower.includes("líquido a pagar") || textLower.includes("liquidacion") || textLower.includes("liquidación")) {
+        dataKey = "sueldo";
       }
       ejecutarAnalisisLocal(dataKey, textVal, false);
     } else {
@@ -457,8 +459,16 @@ document.addEventListener("DOMContentLoaded", () => {
     "plazo": "Respuesta específica sobre plazos, fechas límite o vencimientos de este documento.",
     "documento": "Respuesta específica sobre qué documentos o papeles se necesitan y dónde obtenerlos.",
     "default": "Explicación general sobre qué hacer con este documento y recomendación general."
+  },
+  "salaryBreakdown": {
+    "totalHaberes": "Total bruto o ganado con símbolo de moneda",
+    "totalDescuentos": "Total descontado con signo negativo",
+    "liquidoPagar": "Monto líquido o de bolsillo a recibir",
+    "haberes": [{"label": "Concepto", "amount": "Monto", "type": "imponible|no-imponible", "desc": "Explicación sencilla"}],
+    "descuentos": [{"label": "Concepto", "amount": "Monto", "desc": "Por qué se descuenta y a dónde va este dinero"}]
   }
 }
+Nota: Si el documento NO es una nómina o liquidación de sueldo, omite la clave "salaryBreakdown".
 No agregues explicaciones fuera del JSON, devuelve únicamente el JSON válido.`
         : `Actúa como simplificador para adultos mayores. Analiza el siguiente texto de un documento oficial y devuelve un objeto JSON válido con la siguiente estructura exacta:
 {
@@ -471,8 +481,16 @@ No agregues explicaciones fuera del JSON, devuelve únicamente el JSON válido.`
     "plazo": "Respuesta específica sobre plazos, fechas límite o vencimientos de este documento.",
     "documento": "Respuesta específica sobre qué documentos o papeles se necesitan y dónde obtenerlos.",
     "default": "Explicación general sobre qué hacer con este documento y recomendación general."
+  },
+  "salaryBreakdown": {
+    "totalHaberes": "Total bruto o ganado con símbolo de moneda",
+    "totalDescuentos": "Total descontado con signo negativo",
+    "liquidoPagar": "Monto líquido o de bolsillo a recibir",
+    "haberes": [{"label": "Concepto", "amount": "Monto", "type": "imponible|no-imponible", "desc": "Explicación sencilla"}],
+    "descuentos": [{"label": "Concepto", "amount": "Monto", "desc": "Por qué se descuenta y a dónde va este dinero"}]
   }
 }
+Nota: Si el documento NO es una nómina o liquidación de sueldo, omite la clave "salaryBreakdown".
 No agregues explicaciones fuera del JSON, devuelve únicamente el JSON válido.
 
 Texto del documento:
@@ -537,6 +555,78 @@ ${textoDocumento}`;
   function renderResult(data) {
     document.getElementById("r-what").innerHTML = data.what;
     document.getElementById("r-translation").innerHTML = data.translation;
+
+    // Radiografía de Liquidación de Sueldo / Nómina (Innovación)
+    const salarySection = document.getElementById("r-salary-section");
+    if (data.salaryBreakdown) {
+      if (salarySection) salarySection.style.display = "block";
+      const totalHaberesEl = document.getElementById("salary-total-haberes");
+      const totalDescuentosEl = document.getElementById("salary-total-descuentos");
+      const totalLiquidoEl = document.getElementById("salary-total-liquido");
+      if (totalHaberesEl) totalHaberesEl.textContent = data.salaryBreakdown.totalHaberes || "$0";
+      if (totalDescuentosEl) totalDescuentosEl.textContent = data.salaryBreakdown.totalDescuentos || "$0";
+      if (totalLiquidoEl) totalLiquidoEl.textContent = data.salaryBreakdown.liquidoPagar || "$0";
+
+      // Haberes
+      const haberesList = document.getElementById("salary-haberes-list");
+      if (haberesList) {
+        haberesList.innerHTML = "";
+        if (data.salaryBreakdown.haberes && data.salaryBreakdown.haberes.length > 0) {
+          data.salaryBreakdown.haberes.forEach(h => {
+            const badgeClass = h.type === 'imponible' ? 'badge-imponible' : 'badge-no-imponible';
+            const badgeText = h.type === 'imponible' ? 'Imponible (Paga Ley)' : 'No Imponible (Bolsillo)';
+            haberesList.innerHTML += `
+              <div class="salary-item-row">
+                <div class="salary-item-header">
+                  <div class="salary-item-title-wrap">
+                    <span class="salary-item-title">${h.label}</span>
+                    <span class="salary-item-badge ${badgeClass}">${badgeText}</span>
+                  </div>
+                  <div class="salary-item-amount amount-haber">${h.amount}</div>
+                </div>
+                <div class="salary-item-desc">${h.desc}</div>
+              </div>
+            `;
+          });
+        }
+      }
+
+      // Descuentos
+      const descuentosList = document.getElementById("salary-descuentos-list");
+      if (descuentosList) {
+        descuentosList.innerHTML = "";
+        if (data.salaryBreakdown.descuentos && data.salaryBreakdown.descuentos.length > 0) {
+          data.salaryBreakdown.descuentos.forEach(d => {
+            descuentosList.innerHTML += `
+              <div class="salary-item-row">
+                <div class="salary-item-header">
+                  <div class="salary-item-title-wrap">
+                    <span class="salary-item-title">${d.label}</span>
+                  </div>
+                  <div class="salary-item-amount amount-descuento">${d.amount}</div>
+                </div>
+                <div class="salary-item-desc">${d.desc}</div>
+              </div>
+            `;
+          });
+        }
+      }
+
+      // Preparar texto plano para la síntesis de voz completa de la sección
+      const speechBox = document.getElementById("r-salary-summary-speech");
+      if (speechBox) {
+        let speechText = `Radiografía de tu liquidación de sueldo. Total ganado bruto: ${data.salaryBreakdown.totalHaberes}. Total de descuentos obligatorios: ${data.salaryBreakdown.totalDescuentos}. Sueldo líquido que entra a tu cuenta: ${data.salaryBreakdown.liquidoPagar}. `;
+        if (data.salaryBreakdown.descuentos) {
+          speechText += "Descuentos aplicados: " + data.salaryBreakdown.descuentos.map(d => `${d.label}, ${d.amount}: ${d.desc}`).join(". ");
+        }
+        speechBox.textContent = speechText;
+      }
+    } else {
+      if (salarySection) salarySection.style.display = "none";
+    }
+
+    // Adaptar títulos y descripciones de los botones de escritos oficiales
+    actualizarBotonesTipoEscrito(!!data.salaryBreakdown);
 
     // Pasos
     const stepsUl = document.getElementById("r-steps");
@@ -679,6 +769,76 @@ Firma: ____________________________________
   const btnPrintDraft = document.getElementById("btn-print-draft");
   const btnRegenerateDraft = document.getElementById("btn-regenerate-draft");
 
+  function actualizarBotonesTipoEscrito(esSueldo) {
+    const btnProrroga = document.getElementById("btn-type-prorroga");
+    const btnJustificantes = document.getElementById("btn-type-justificantes");
+    const btnDescargo = document.getElementById("btn-type-descargo");
+
+    if (esSueldo) {
+      if (btnProrroga) {
+        btnProrroga.innerHTML = `
+          <span class="type-icon" aria-hidden="true">📝</span>
+          <div class="type-info">
+            <strong>Aclaración de Sueldo</strong>
+            <small>Pedir informe de cálculos a RRHH</small>
+          </div>
+        `;
+        btnProrroga.setAttribute('aria-label', 'Seleccionar escrito de Solicitud de Aclaración de Sueldo');
+      }
+      if (btnJustificantes) {
+        btnJustificantes.innerHTML = `
+          <span class="type-icon" aria-hidden="true">📑</span>
+          <div class="type-info">
+            <strong>Acreditar Cargas / Asignación</strong>
+            <small>Entregar certificados de asignaciones</small>
+          </div>
+        `;
+        btnJustificantes.setAttribute('aria-label', 'Seleccionar escrito de Acreditación de Cargas y Asignaciones');
+      }
+      if (btnDescargo) {
+        btnDescargo.innerHTML = `
+          <span class="type-icon" aria-hidden="true">⚖️</span>
+          <div class="type-info">
+            <strong>Reclamo Descuento Indebido</strong>
+            <small>Exigir restitución de montos no autorizados</small>
+          </div>
+        `;
+        btnDescargo.setAttribute('aria-label', 'Seleccionar escrito de Reclamo por Descuento Indebido');
+      }
+    } else {
+      if (btnProrroga) {
+        btnProrroga.innerHTML = `
+          <span class="type-icon" aria-hidden="true">⏳</span>
+          <div class="type-info">
+            <strong>Solicitud de Prórroga</strong>
+            <small>Pedir más tiempo para reunir documentos</small>
+          </div>
+        `;
+        btnProrroga.setAttribute('aria-label', 'Seleccionar escrito de Solicitud de Prórroga');
+      }
+      if (btnJustificantes) {
+        btnJustificantes.innerHTML = `
+          <span class="type-icon" aria-hidden="true">📄</span>
+          <div class="type-info">
+            <strong>Aportar Documentación</strong>
+            <small>Entregar recibos o facturas requeridas</small>
+          </div>
+        `;
+        btnJustificantes.setAttribute('aria-label', 'Seleccionar escrito de Aportación de Justificantes');
+      }
+      if (btnDescargo) {
+        btnDescargo.innerHTML = `
+          <span class="type-icon" aria-hidden="true">⚖️</span>
+          <div class="type-info">
+            <strong>Alegaciones / Descargo</strong>
+            <small>Manifestar disconformidad con respeto</small>
+          </div>
+        `;
+        btnDescargo.setAttribute('aria-label', 'Seleccionar escrito de Alegaciones y Descargo');
+      }
+    }
+  }
+
   function cargarBorrador(tipo) {
     currentDraftType = tipo || 'prorroga';
 
@@ -718,11 +878,17 @@ Firma: ____________________________________
     btn.addEventListener('click', () => {
       const tipo = btn.getAttribute('data-type');
       cargarBorrador(tipo);
-      const nombresTipos = {
-        prorroga: "Solicitud de prórroga",
-        justificantes: "Aportación de documentación",
-        descargo: "Alegaciones y descargo"
-      };
+      const nombresTipos = (currentActiveData && currentActiveData.salaryBreakdown)
+        ? {
+            prorroga: "Solicitud de aclaración de sueldo",
+            justificantes: "Acreditación de cargas familiares y asignaciones",
+            descargo: "Reclamo formal por descuento indebido"
+          }
+        : {
+            prorroga: "Solicitud de prórroga",
+            justificantes: "Aportación de documentación",
+            descargo: "Alegaciones y descargo"
+          };
       hablarTexto(`Borrador cambiado a ${nombresTipos[tipo] || tipo}. Puedes editar el texto en pantalla.`);
     });
   });
@@ -885,7 +1051,17 @@ IMPORTANTE: Devuelve ÚNICAMENTE el texto formal del escrito listo para imprimir
         const queryLower = query.toLowerCase();
         
         if (currentActiveData && currentActiveData.chatResponses) {
-          if (queryLower.includes("plazo") || queryLower.includes("cuando") || queryLower.includes("fecha") || queryLower.includes("limite") || queryLower.includes("tiempo") || queryLower.includes("vence") || queryLower.includes("cuanto tiempo")) {
+          if (queryLower.includes("salud") || queryLower.includes("fonasa") || queryLower.includes("isapre") || queryLower.includes("7%")) {
+            responseText = currentActiveData.chatResponses.salud || "El descuento de salud del 7% es obligatorio por ley y financia tu atención médica y subsidio de licencias.";
+          } else if (queryLower.includes("afp") || queryLower.includes("pension") || queryLower.includes("pensión") || queryLower.includes("jubilacion") || queryLower.includes("jubilación") || queryLower.includes("previsión") || queryLower.includes("prevision")) {
+            responseText = currentActiveData.chatResponses.afp || "El descuento previsional o AFP es obligatorio por ley para financiar tu cuenta individual de pensión futura.";
+          } else if (queryLower.includes("imponible") || queryLower.includes("no imponible") || queryLower.includes("colacion") || queryLower.includes("colación") || queryLower.includes("movilizacion") || queryLower.includes("movilización")) {
+            responseText = currentActiveData.chatResponses.imponible || "Los haberes imponibles descuentan salud y previsión; los no imponibles llegan íntegros a tu bolsillo sin descuentos.";
+          } else if (queryLower.includes("liquido") || queryLower.includes("líquido") || queryLower.includes("bolsillo") || queryLower.includes("cuanto me llega") || queryLower.includes("cuánto me llega") || queryLower.includes("neto")) {
+            responseText = currentActiveData.chatResponses.liquido || "El Sueldo Líquido es el monto neto final que depositan en tu cuenta tras restar todos los descuentos legales.";
+          } else if (queryLower.includes("cesantia") || queryLower.includes("cesantía") || queryLower.includes("afc") || queryLower.includes("desempleo")) {
+            responseText = currentActiveData.chatResponses.cesantia || "El Seguro de Cesantía (AFC) descuenta 0.6% solo en contratos indefinidos para protegerte ante un eventual desempleo.";
+          } else if (queryLower.includes("plazo") || queryLower.includes("cuando") || queryLower.includes("fecha") || queryLower.includes("limite") || queryLower.includes("tiempo") || queryLower.includes("vence") || queryLower.includes("cuanto tiempo")) {
             responseText = currentActiveData.chatResponses.plazo || currentActiveData.chatResponses.default;
           } else if (queryLower.includes("documento") || queryLower.includes("papel") || queryLower.includes("requisito") || queryLower.includes("que llevar") || queryLower.includes("presentar")) {
             responseText = currentActiveData.chatResponses.documento || currentActiveData.chatResponses.default;
@@ -998,6 +1174,11 @@ Responde de manera muy clara, directa y en español de forma comprensible para u
     btnMediaAnalyze.style.display = "none";
     chatHistory = [];
     ultimoTextoDocumento = "";
+
+    // Ocultar sección de radiografía de sueldo si estaba visible
+    const salarySection = document.getElementById("r-salary-section");
+    if (salarySection) salarySection.style.display = "none";
+    actualizarBotonesTipoEscrito(false);
 
     // Ocultar resultados y restaurar pestañas iniciales
     resultPanel.classList.remove("show");

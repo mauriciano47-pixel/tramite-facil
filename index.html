@@ -167,6 +167,53 @@
           <div class="section-body" id="r-translation"></div>
         </div>
 
+        <!-- Sección Especial: Radiografía de Liquidación de Sueldo / Nómina -->
+        <div class="result-section s-salary" id="r-salary-section" style="display: none;">
+          <div class="section-header">
+            <div class="section-header-left">
+              <div class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <span>💼 Radiografía de tu Sueldo: ¿Qué es cada descuento y por qué?</span>
+            </div>
+            <button class="btn-audio-section" id="btn-audio-salary" data-target="r-salary-summary-speech" title="Escuchar desglose de sueldo" aria-label="Escuchar desglose de sueldo y descuentos">🔊</button>
+          </div>
+          <div class="section-body" id="r-salary-body">
+            
+            <!-- Resumen en 3 tarjetas rápidas -->
+            <div class="salary-cards-grid">
+              <div class="salary-card card-haberes">
+                <div class="salary-card-label">🟢 Total Ganado (Haberes)</div>
+                <div class="salary-card-value" id="salary-total-haberes">$0</div>
+                <div class="salary-card-note">Sueldo Base + Bonos</div>
+              </div>
+              <div class="salary-card card-descuentos">
+                <div class="salary-card-label">🔴 Total Descuentos</div>
+                <div class="salary-card-value" id="salary-total-descuentos">-$0</div>
+                <div class="salary-card-note">Salud + Previsión + Ley</div>
+              </div>
+              <div class="salary-card card-liquido">
+                <div class="salary-card-label">🔵 Líquido a Pago (Tu Bolsillo)</div>
+                <div class="salary-card-value" id="salary-total-liquido">$0</div>
+                <div class="salary-card-note">Lo que entra a tu cuenta</div>
+              </div>
+            </div>
+
+            <!-- Listado explicativo detallado: Haberes vs Descuentos -->
+            <div class="salary-breakdown-details">
+              <h4 class="salary-subtitle">🟢 Haberes (Lo que compone tu sueldo bruto):</h4>
+              <div class="salary-items-list" id="salary-haberes-list"></div>
+
+              <h4 class="salary-subtitle salary-subtitle-danger">🔴 Descuentos Legales y Otros (¿Por qué te retienen esto y a dónde va?):</h4>
+              <div class="salary-items-list" id="salary-descuentos-list"></div>
+            </div>
+
+            <!-- Contenedor oculto con texto plano para síntesis de voz completa -->
+            <div id="r-salary-summary-speech" style="display:none;" aria-hidden="true"></div>
+
+          </div>
+        </div>
+
         <!-- Sección: Pasos a seguir -->
         <div class="result-section s-steps">
           <div class="section-header">
@@ -295,6 +342,7 @@
       <button class="example-chip" data-example="hacienda">📬 Notificación de Hacienda</button>
       <button class="example-chip" data-example="multa">🚗 Multa de tráfico</button>
       <button class="example-chip" data-example="juzgado">⚖️ Citación judicial</button>
+      <button class="example-chip" data-example="sueldo">💼 Liquidación de Sueldo</button>
     </div>
   </div>
 

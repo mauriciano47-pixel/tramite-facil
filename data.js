@@ -297,5 +297,123 @@ En [CIUDAD], a [FECHA ACTUAL].
 Firma: ____________________________________
 [TU NOMBRE Y APELLIDOS]`
     }
+  },
+  sueldo: {
+    what: "Es una **liquidación de sueldo mensual (nómina de remuneración)** emitida por tu empleador.",
+    translation: "Es tu comprobante de pago oficial: detalla todo lo que ganaste en el mes (Haberes brutos), lo que te descuentan por ley para tu salud y pensión (Descuentos obligatorios), y la cantidad exacta que debe entrar a tu cuenta bancaria (Líquido a pago).",
+    salaryBreakdown: {
+      totalHaberes: "$850.000",
+      totalDescuentos: "$174.250",
+      liquidoPagar: "$675.750",
+      haberes: [
+        { label: "Sueldo Base", amount: "$600.000", type: "imponible", desc: "Monto fijo pactado en tu contrato por tu jornada ordinaria de trabajo." },
+        { label: "Gratificación Legal", amount: "$150.000", type: "imponible", desc: "Parte de las utilidades que la empresa adelanta y reparte por ley a cada trabajador." },
+        { label: "Asignación de Colación y Movilización", amount: "$100.000", type: "no-imponible", desc: "Compensación de gastos para almuerzo y locomoción. Llega íntegro a tu bolsillo (no paga impuestos ni cotizaciones previsionales)." }
+      ],
+      descuentos: [
+        { label: "Salud (Fonasa / Isapre 7%)", amount: "-$52.500", desc: "¿Por qué se descuenta?: Por mandato legal obligatorio (7% de tus haberes imponibles). Financia tu atención médica pública/privada, urgencias y el subsidio de licencias médicas." },
+        { label: "Previsión / Jubilación (AFP ~11.5%)", amount: "-$86.250", desc: "¿Por qué se descuenta?: Obligatorio por ley. El 10% va a tu cuenta individual de capitalización para tu futura pensión, más el porcentaje de comisión de tu AFP administradora." },
+        { label: "Seguro de Cesantía (AFC 0.6%)", amount: "-$4.500", desc: "¿Por qué se descuenta?: Aporte personal para financiar tu seguro de desempleo si tu contrato es indefinido. (Nota: Si tu contrato es a plazo fijo, ¡el trabajador paga $0, lo costea 100% la empresa!)." },
+        { label: "Anticipo de Sueldo / Quincena", amount: "-$31.000", desc: "¿Por qué se descuenta?: Retención por adelanto de dinero que recibiste a mitad de mes antes de la fecha formal de pago." }
+      ]
+    },
+    steps: [
+      "Verificar que el Sueldo Líquido ($675.750) coincida exactamente con la transferencia en tu cuenta bancaria o el pago recibido.",
+      "Entrar al sitio web de tu AFP y de Fonasa/Isapre para comprobar que tu empleador haya pagado y transferido las cotizaciones descontadas.",
+      "Revisar que no existan cobros o descuentos por seguros o préstamos que no hayas autorizado expresamente por escrito.",
+      "Firmar la copia de la liquidación o guardar el documento digital como comprobante de antigüedad y solvencia económica."
+    ],
+    docs: [
+      "Copia de tu Contrato de Trabajo o anexos vigentes para comparar el sueldo base pactado.",
+      "Cartola histórica de cotizaciones previsionales (se descarga con tu RUT y clave en la web de tu AFP).",
+      "Comprobante bancario de depósito o transferencia del mes."
+    ],
+    warns: [
+      "Tu empleador tiene plazo legal hasta el día 10 (o 13 si paga por internet en Previred) del mes siguiente para pagar tus cotizaciones. No pagarlas constituye una infracción laboral grave.",
+      "Ningún empleador puede descontar montos por sanciones disciplinarias o pérdidas materiales sin un procedimiento y autorización estricta en el Reglamento Interno."
+    ],
+    chatResponses: {
+      salud: "El descuento de salud corresponde por ley a un mínimo del 7% sobre tus haberes imponibles. Si estás en Fonasa va al fondo nacional de salud; si estás en Isapre cubre el valor de tu plan médico contratado.",
+      afp: "El descuento previsional de AFP es obligatorio por ley para todo trabajador con contrato dependiente. Representa el 10% para tu fondo de vejez más la comisión de administración de tu AFP (total aprox. 11.5%).",
+      imponible: "Los haberes imponibles son aquellos que pagan impuestos y cotizaciones (sueldo base, horas extras, comisiones, gratificación). Los NO imponibles (colación, transporte, viáticos) llegan 100% íntegros a tu bolsillo sin deducciones.",
+      liquido: "El Sueldo Líquido es el dinero real y de bolsillo que te transfieren a tu cuenta: se obtiene restando el Total de Descuentos al Total de Haberes.",
+      cesantia: "El Seguro de Cesantía (AFC) descuenta el 0.6% únicamente si tu contrato es indefinido. Si tienes contrato a plazo fijo o por obra, ¡el trabajador no paga nada, lo asume 100% el empleador!",
+      default: "Es tu liquidación mensual de remuneraciones. Te aconsejo revisar que los haberes coincidan con tu contrato y que los descuentos de salud y AFP estén declarados y pagados al día."
+    },
+    draftTemplates: {
+      prorroga: `A LA DIRECCIÓN DE RECURSOS HUMANOS / EMPLEADOR: [NOMBRE DE LA EMPRESA O EMPLEADOR]
+DIRECCIÓN / SEDE: [DIRECCIÓN DE LA EMPRESA O SUCURSAL]
+
+DATOS DEL TRABAJADOR/A:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT / DNI: [TU RUT O DOCUMENTO DE IDENTIDAD]
+Cargo o Función: [TU CARGO EN LA EMPRESA]
+Fecha de ingreso: [FECHA DE INICIO DE CONTRATO]
+
+ASUNTO: Solicitud formal de aclaración y desglose de liquidación de sueldo del mes de [MES Y AÑO]
+
+EXPONE:
+1. Que habiendo recibido y revisado la liquidación de remuneraciones correspondiente al periodo de [MES Y AÑO], he constatado dudas e inconsistencias en determinados ítems de cálculo y retenciones.
+2. Que específicamente requiero el desglose detallado de los siguientes conceptos:
+   - Base de cálculo de los descuentos aplicados bajo la glosa: [INDICAR GLOSA O DESCUENTO DUDOSO].
+   - Detalle del cálculo de horas extras / comisiones devengadas durante el periodo.
+3. Que conforme al Código del Trabajo, el trabajador tiene derecho a conocer con exactitud la procedencia de cada haber y retención efectuada en su remuneración mensual.
+
+SOLICITA:
+Se sirva proporcionar el informe de cálculo detallado y, en caso de existir un error u omisión material, se proceda al ajuste y pago complementario correspondiente en el plazo más breve.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma del Trabajador/a: ____________________________________
+[TU NOMBRE Y APELLIDOS]`,
+
+      justificantes: `A LA DIRECCIÓN DE RECURSOS HUMANOS / EMPLEADOR: [NOMBRE DE LA EMPRESA]
+DIRECCIÓN: [DIRECCIÓN DE LA EMPRESA]
+
+DATOS DEL TRABAJADOR/A:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT / DNI: [TU RUT O DNI]
+Cargo: [TU CARGO]
+
+ASUNTO: Acreditación de antecedentes para incorporación de asignación familiar y cargas legales
+
+EXPONE:
+1. Que mediante la presente comunicación acompaño la documentación oficial necesaria para la debida incorporación y pago del beneficio de Asignación Familiar en mi liquidación mensual.
+2. Se adjuntan los siguientes antecedentes comprobatorios:
+   - Certificado de Nacimiento / Alumno Regular de: [NOMBRE DE LA CARGA O BENEFICIARIO].
+   - Declaración jurada de ingresos / antecedentes correspondientes.
+3. Que dichos antecedentes acreditan el cumplimiento íntegro de los requisitos legales exigidos.
+
+SOLICITA:
+Se sirva ingresar formalmente la carga familiar en el sistema previsional y proceder a la liquidación del monto asignado en la próxima fecha de pago de remuneraciones.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`,
+
+      descargo: `A LA DIRECCIÓN DE RECURSOS HUMANOS / GERENCIA: [NOMBRE DE LA EMPRESA]
+DIRECCIÓN: [DIRECCIÓN DE LA EMPRESA]
+
+DATOS DEL TRABAJADOR/A:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT / DNI: [TU RUT O DOCUMENTO DE IDENTIDAD]
+Cargo: [TU CARGO]
+
+ASUNTO: Reclamo formal por descuento indebido no autorizado en liquidación de sueldo
+
+EXPONE:
+1. Que en mi liquidación de remuneraciones correspondiente al mes de [MES Y AÑO], se ha practicado un descuento por el monto de $[MONTO DESCONTADO], bajo el concepto de [NOMBRE DEL DESCUENTO].
+2. Que dicho descuento no cuenta con autorización escrita de mi parte, no se encuentra pactado en el contrato de trabajo ni responde a mandato legal ni orden judicial alguna.
+3. Que el artículo 58 del Código del Trabajo prohíbe taxativamente al empleador efectuar deducciones o retenciones que no se encuentren expresamente autorizadas por ley o consentidas por escrito por el trabajador.
+
+SOLICITA:
+La restitución inmediata del monto indebidamente retenido en un plazo máximo de 5 días hábiles, haciéndose expresa reserva de recurrir ante la Inspección del Trabajo respectiva en resguardo de mis derechos laborales si no se remedia la situación.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma del Trabajador/a: ____________________________________
+[TU NOMBRE Y APELLIDOS]`
+    }
   }
 };

@@ -639,6 +639,212 @@ body.high-contrast .section-body {
 .s-translate .section-icon { background: var(--purple); }
 .s-translate .section-icon svg { stroke: #ffffff; fill: none; }
 
+/* SECCIÓN SALARY / NÓMINA (INNOVACIÓN) */
+.s-salary .section-header { background: #ECFDF5; color: #065F46; }
+.s-salary .section-icon { background: #059669; }
+.s-salary .section-icon svg { stroke: #ffffff; fill: none; }
+
+.salary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.salary-card {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: var(--transition-fast);
+}
+
+.salary-card:hover {
+  transform: translateY(-1px);
+}
+
+.card-haberes {
+  border-color: #A7F3D0;
+  background: #F0FDF4;
+}
+.card-haberes .salary-card-value {
+  color: #047857;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+}
+
+.card-descuentos {
+  border-color: #FECACA;
+  background: #FEF2F2;
+}
+.card-descuentos .salary-card-value {
+  color: #DC2626;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+}
+
+.card-liquido {
+  border-color: #BFDBFE;
+  background: #EFF6FF;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.08);
+}
+.card-liquido .salary-card-value {
+  color: #1D4ED8;
+  font-size: 1.65rem;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+}
+
+.salary-card-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+
+.salary-card-note {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.salary-subtitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 18px 0 10px;
+  font-family: 'Sora', sans-serif;
+  color: #065F46;
+}
+
+.salary-subtitle-danger {
+  color: #991B1B;
+}
+
+.salary-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.salary-item-row {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+
+.salary-item-row:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.salary-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.salary-item-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.salary-item-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.salary-item-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.badge-imponible {
+  background: #DEF7EC;
+  color: #03543F;
+}
+
+.badge-no-imponible {
+  background: #E1EFFE;
+  color: #1E429F;
+}
+
+.salary-item-amount {
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.05rem;
+}
+
+.amount-haber {
+  color: #059669;
+}
+
+.amount-descuento {
+  color: #DC2626;
+}
+
+.salary-item-desc {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  background: #F8FAFC;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #CBD5E1;
+}
+
+body.high-contrast .s-salary .section-header {
+  background: #000000;
+  color: var(--accent);
+}
+body.high-contrast .salary-card {
+  background: #000000;
+  border: 2px solid var(--border);
+  color: #ffffff;
+}
+body.high-contrast .card-haberes .salary-card-value {
+  color: #4ade80;
+}
+body.high-contrast .card-descuentos .salary-card-value {
+  color: #f87171;
+}
+body.high-contrast .card-liquido .salary-card-value {
+  color: var(--accent);
+}
+body.high-contrast .salary-item-row {
+  background: #000000;
+  border: 2px solid var(--border);
+  color: #ffffff;
+}
+body.high-contrast .salary-item-title {
+  color: #ffffff;
+}
+body.high-contrast .salary-item-desc {
+  background: #111111;
+  color: #eeeeee;
+  border-left-color: var(--accent);
+}
+body.high-contrast .salary-subtitle {
+  color: var(--accent);
+}
+
 .s-steps .section-header { background: var(--green-light); color: var(--green); }
 .s-steps .section-icon { background: var(--green); }
 .s-steps .section-icon svg { stroke: #ffffff; fill: none; }
@@ -1497,6 +1703,7 @@ body.high-contrast .btn-secondary:hover {
   .chat-section,
   .s-what,
   .s-translate,
+  .s-salary,
   .s-steps,
   .s-docs,
   .s-warn,

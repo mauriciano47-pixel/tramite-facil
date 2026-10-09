@@ -50,11 +50,14 @@ La aplicación cuenta con un modo de **Simulación Guiada** integrado que funcio
 2. **Revisión del Resumen Inteligente:**
    - **¿Qué es este documento?:** Identificación precisa del emisor y tipo de trámite.
    - **Traducción simple:** Explicación cotidiana y sin jergas del contenido.
+   - **Radiografía de Liquidación de Sueldo (Innovación v1.3.0):** Si el documento es una nómina o liquidación de sueldo, se despliegan automáticamente 3 tarjetas de resumen (Total Haberes, Total Descuentos y Sueldo Líquido de Bolsillo) junto al desglose pedagógico de cada descuento legal (Salud 7%, AFP 10%, AFC 0.6%, Impuestos y Anticipos) explicando con exactitud por qué se descuenta y a dónde va el dinero.
    - **Pasos a seguir:** Lista enumerada de acciones ordenadas cronológicamente.
    - **Documentos que necesitas:** Papeles y comprobantes requeridos.
    - **Fechas y advertencias:** Plazos fatales (días hábiles vs. corridos) y consecuencias de inacción.
-3. **Generar Carta Oficial de Respuesta en 1 Clic (Innovación v1.2.0):**
-   - Selecciona el tipo de contestación: **Solicitud de Prórroga** (pedir más tiempo), **Aportar Documentación** (entregar justificantes requeridos) o **Alegaciones / Descargo** (manifestar disconformidad formal).
+3. **Generar Carta Oficial de Respuesta en 1 Clic (Innovación v1.2.0 / v1.3.0):**
+   - Selecciona el tipo de contestación:
+     - En trámites administrativos generales: **Solicitud de Prórroga**, **Aportar Documentación** o **Alegaciones / Descargo**.
+     - En liquidaciones de sueldo: **Aclaración de Sueldo a RRHH**, **Acreditar Cargas Familiares** o **Reclamo por Descuento Indebido**.
    - Revisa el texto en el folio editable y completa los datos entre corchetes `[COMO ESTE]`.
    - Utiliza **"Copiar Escrito"** para llevarlo al portapapeles o **"Imprimir / PDF"** para obtener una hoja formal A4 completamente limpia sin los menús de la web.
    - Si tienes API Key de Gemini configurada, pulsa **"Regenerar con IA"** para redactar un escrito altamente personalizado según el documento específico analizado.
