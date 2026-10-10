@@ -1,5 +1,5 @@
 // Base de datos de ejemplos y respuestas estructuradas en español
-window.TRAMITE_EXAMPLES = {
+export const TRAMITE_EXAMPLES = {
   hacienda: {
     what: "Es una **notificación de Hacienda** referente al Impuesto sobre la Renta de las Personas Físicas (IRPF).",
     translation: "Hacienda dice que hay inconsistencias en tus declaraciones de impuestos previas y quiere que justifiques tus deducciones con documentos oficiales.",
@@ -417,3 +417,10 @@ Firma del Trabajador/a: ____________________________________
     }
   }
 };
+
+if (typeof window !== 'undefined') {
+  window.TRAMITE_EXAMPLES = TRAMITE_EXAMPLES;
+}
+
+export default TRAMITE_EXAMPLES;
+
