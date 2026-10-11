@@ -136,19 +136,52 @@ function renderButtonMarkup(btn, icon, title, desc, ariaLabel) {
 
 /**
  * Actualiza la apariencia y accesibilidad de los 3 botones de selección de tipo de escrito
- * @param {boolean} esSueldo 
+ * @param {string | boolean | object} context Identificador de trámite o booleano de sueldo
  */
-export function actualizarBotonesTipoEscrito(esSueldo) {
+export function actualizarBotonesTipoEscrito(context) {
   if (typeof document === 'undefined') return;
 
   const btnProrroga = document.getElementById("btn-type-prorroga");
   const btnJustificantes = document.getElementById("btn-type-justificantes");
   const btnDescargo = document.getElementById("btn-type-descargo");
 
-  if (esSueldo) {
+  let tipo = "general";
+  if (typeof context === "string") {
+    tipo = context;
+  } else if (context === true) {
+    tipo = "sueldo";
+  } else if (context && typeof context === "object") {
+    if (context.salaryBreakdown) tipo = "sueldo";
+    else if (context._key) tipo = context._key;
+    else if (context.what) {
+      const w = context.what.toLowerCase();
+      if (w.includes("pgu") || w.includes("pensión") || w.includes("pension")) tipo = "pgu";
+      else if (w.includes("ges") || w.includes("auge") || w.includes("salud")) tipo = "ges";
+      else if (w.includes("contribución") || w.includes("contribucion") || w.includes("territorial")) tipo = "contribuciones";
+      else if (w.includes("poder") || w.includes("mandato")) tipo = "poder";
+    }
+  }
+
+  if (tipo === "sueldo") {
     renderButtonMarkup(btnProrroga, "📝", "Aclaración de Sueldo", "Pedir informe de cálculos a RRHH", "Seleccionar escrito de Solicitud de Aclaración de Sueldo");
     renderButtonMarkup(btnJustificantes, "📑", "Acreditar Cargas / Asignación", "Entregar certificados de asignaciones", "Seleccionar escrito de Acreditación de Cargas y Asignaciones");
     renderButtonMarkup(btnDescargo, "⚖️", "Reclamo Descuento Indebido", "Exigir restitución de montos no autorizados", "Seleccionar escrito de Reclamo por Descuento Indebido");
+  } else if (tipo === "pgu") {
+    renderButtonMarkup(btnProrroga, "👵", "Reconsideración PGU", "Solicitar revisión por ingresos familiares", "Seleccionar escrito de Reconsideración de PGU");
+    renderButtonMarkup(btnJustificantes, "🏠", "Acreditar Residencia", "Demostrar permanencia en el país", "Seleccionar escrito de Acreditación de Residencia");
+    renderButtonMarkup(btnDescargo, "⚖️", "Reclamo Suspensión Pensión", "Exigir pago retroactivo inmediato", "Seleccionar escrito de Reclamo por Suspensión de Pensión");
+  } else if (tipo === "ges") {
+    renderButtonMarkup(btnProrroga, "🏥", "Reclamo Segundo Prestador", "Exigir clínica privada en 48 horas", "Seleccionar escrito de Segundo Prestador GES");
+    renderButtonMarkup(btnJustificantes, "💊", "Urgencia Medicamentos GES", "Solicitar entrega inmediata de fármacos", "Seleccionar escrito de Entrega Urgente de Medicamentos");
+    renderButtonMarkup(btnDescargo, "⚖️", "Reclamo Superintendencia", "Denunciar abandono de tratamiento", "Seleccionar escrito de Reclamo ante Superintendencia de Salud");
+  } else if (tipo === "contribuciones") {
+    renderButtonMarkup(btnProrroga, "🏠", "Rebaja Adulto Mayor (SII)", "Solicitar exención del 100% o 50%", "Seleccionar escrito de Rebaja de Contribuciones para Adulto Mayor");
+    renderButtonMarkup(btnJustificantes, "📑", "Suspensión Cobranza (TGR)", "Frenar cobro coactivo e intereses", "Seleccionar escrito de Suspensión de Cobranza ante Tesorería");
+    renderButtonMarkup(btnDescargo, "⚖️", "Rectificar Avalúo Fiscal", "Corregir avalúo por casa económica", "Seleccionar escrito de Rectificación de Avalúo Fiscal");
+  } else if (tipo === "poder") {
+    renderButtonMarkup(btnProrroga, "👵", "Poder Cobro de Pensión", "Autorizar a familiar en banco/caja", "Seleccionar Poder para Cobro de Pensión");
+    renderButtonMarkup(btnJustificantes, "💊", "Poder Retiro Medicamentos", "Autorizar trámites en Cesfam/Hospital", "Seleccionar Autorización para Retiro de Medicamentos");
+    renderButtonMarkup(btnDescargo, "✍️", "Poder Simple General", "Para luz, agua o trámites del municipio", "Seleccionar Poder Simple General");
   } else {
     renderButtonMarkup(btnProrroga, "⏳", "Solicitud de Prórroga", "Pedir más tiempo para reunir documentos", "Seleccionar escrito de Solicitud de Prórroga");
     renderButtonMarkup(btnJustificantes, "📄", "Aportar Documentación", "Entregar recibos o facturas requeridas", "Seleccionar escrito de Aportación de Justificantes");

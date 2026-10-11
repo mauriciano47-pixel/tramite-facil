@@ -60,14 +60,14 @@ export function actualizarIndicadorApi() {
 export function setupApiKeyModal(onStatusChange = null) {
   if (typeof document === 'undefined') return;
 
-  const btnConfigApi = document.getElementById("btn-config-api");
+  const btnConfigApi = document.getElementById("btn-config-api") || document.getElementById("btn-dev-api-trigger");
   const modalApi = document.getElementById("modal-api");
   const btnCloseModal = document.getElementById("btn-close-modal");
   const inputApiKey = document.getElementById("input-api-key");
   const btnSaveApi = document.getElementById("btn-save-api");
   const btnDeleteApi = document.getElementById("btn-delete-api");
 
-  if (!btnConfigApi || !modalApi) return;
+  if (!modalApi) return;
 
   actualizarIndicadorApi();
 
@@ -84,7 +84,7 @@ export function setupApiKeyModal(onStatusChange = null) {
     modalApi.setAttribute("aria-hidden", "true");
   }
 
-  btnConfigApi.addEventListener("click", abrirModal);
+  btnConfigApi?.addEventListener("click", abrirModal);
   if (btnCloseModal) btnCloseModal.addEventListener("click", cerrarModal);
 
   window.addEventListener("click", (e) => {

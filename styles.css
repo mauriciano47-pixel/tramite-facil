@@ -1782,3 +1782,268 @@ body.high-contrast .btn-secondary:hover {
     white-space: pre-wrap !important;
   }
 }
+
+/* ===============================================================
+   ESTILOS SENIOR-FIRST Y COMPONENTES DE TERCERA EDAD (v1.4.0)
+   =============================================================== */
+
+/* Botón de Ayuda en Cabecera */
+.acc-btn-help {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+.acc-btn-help:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+body.high-contrast .acc-btn-help {
+  border: 2px solid var(--border);
+  background: #000000;
+  color: var(--accent);
+}
+
+/* Barra de Acciones de Texto y Botón Pegar */
+.text-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.btn-paste-clip {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-paste-clip:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-clear-text {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+
+.btn-clear-text:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+body.high-contrast .btn-paste-clip {
+  background: var(--accent);
+  color: #000000;
+  border: 2px solid #ffffff;
+}
+body.high-contrast .btn-clear-text {
+  border: 2px solid var(--border);
+  color: #ffffff;
+}
+
+/* Guía Rápida para Fotos y Botones Táctiles */
+.photo-guide-card {
+  margin-top: 18px;
+  padding: 16px;
+  background: var(--surface-alt, #f8fafc);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.photo-guide-title {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.photo-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.btn-photo-type {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-fast);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-photo-type:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+body.high-contrast .photo-guide-card {
+  background: #000000;
+  border: 2px dashed var(--border);
+}
+body.high-contrast .btn-photo-type {
+  border: 2px solid var(--border);
+  background: #000000;
+  color: #ffffff;
+}
+body.high-contrast .btn-photo-type:hover {
+  background: var(--accent);
+  color: #000000;
+}
+
+/* Chips Especiales para la Tercera Edad */
+.example-chip.chip-senior {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.08);
+  font-weight: 700;
+}
+.example-chip.chip-senior:hover {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+body.high-contrast .example-chip.chip-senior {
+  border: 2px solid #10b981;
+  background: #000000;
+  color: #ffffff;
+}
+body.high-contrast .example-chip.chip-senior:hover {
+  background: #10b981;
+  color: #000000;
+}
+
+/* Pie de Página y Enlace de Desarrollador Discreto */
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.footer-dot {
+  color: var(--ink-soft);
+  opacity: 0.5;
+}
+
+.dev-api-link {
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0.6;
+  text-decoration: underline;
+  padding: 4px 6px;
+  transition: var(--transition-fast);
+}
+
+.dev-api-link:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* Modal de Ayuda para Adultos Mayores */
+.modal-content-help {
+  max-width: 620px;
+}
+
+.help-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.help-step-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.help-step-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.help-step-content h4 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.help-step-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.help-guarantee {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: #ecfdf5;
+  border: 1px solid #10b981;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #065f46;
+  line-height: 1.4;
+}
+
+body.high-contrast .help-step-badge {
+  background: var(--accent);
+  color: #000000;
+}
+body.high-contrast .help-step-content h4,
+body.high-contrast .help-step-content p {
+  color: #ffffff;
+}
+body.high-contrast .help-guarantee {
+  background: #000000;
+  border: 2px solid #10b981;
+  color: #10b981;
+}

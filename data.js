@@ -415,6 +415,401 @@ En [CIUDAD], a [FECHA ACTUAL].
 Firma del Trabajador/a: ____________________________________
 [TU NOMBRE Y APELLIDOS]`
     }
+  },
+
+  pgu: {
+    what: "Es una **notificación oficial sobre tu Pensión o PGU (Pensión Garantizada Universal)** emitida por el IPS o ChileAtiende.",
+    translation: "El Estado te informa sobre el estado de tu pensión o subsidio mensual. Si dice que te faltan papeles de residencia o que revisarán tus ingresos, no te asustes: solo necesitan comprobar que sigues viviendo en el país o actualizar tu ficha social para continuar tus pagos con normalidad.",
+    steps: [
+      "Revisar si la carta te pide acreditar residencia en Chile o actualizar datos de tu hogar.",
+      "Reunir tu carnet de identidad vigente y un certificado de residencia o cuenta de servicio a tu nombre.",
+      "Acudir a una sucursal de ChileAtiende o ingresar a su sitio web con ClaveÚnica para ingresar el escrito de respaldo."
+    ],
+    docs: [
+      "Cédula de Identidad chilena vigente (por ambos lados).",
+      "Certificado de Residencia (emitido por junta de vecinos o notaría) o cuenta de luz/agua que demuestre que vives en el país.",
+      "Cartola del Registro Social de Hogares (RSH) actualizada si solicitan justificar ingresos familiares."
+    ],
+    warns: [
+      "Tienes **30 días corridos** para responder desde que recibiste la carta antes de que suspendan transitoriamente el pago.",
+      "Si el pago fue suspendido por error administrativo, el IPS debe pagarte todos los meses acumulados de forma retroactiva al aclarar la situación."
+    ],
+    chatResponses: {
+      plazo: "El IPS otorga generalmente 30 días para presentar los antecedentes requeridos. Si presentas tu escrito dentro de este plazo, no te descontarán ni suspenderán tu pensión.",
+      documento: "Lo principal es tu Cédula de Identidad y un Certificado de Residencia que demuestre que vives en Chile. En ChileAtiende te ayudan a tramitarlo de forma gratuita.",
+      descuento: "La PGU no tiene descuentos tributarios. Si recibiste un monto menor, puede ser un ajuste por el cálculo de tu pensión base o cambio de tramo en el Registro Social de Hogares.",
+      default: "Esta carta se refiere a tu pensión de vejez o PGU. No te preocupes: llevando tu cédula y el escrito que te preparamos a ChileAtiende o a tu municipalidad, resolverás el trámite rápidamente."
+    },
+    draftTemplates: {
+      prorroga: `AL INSTITUTO DE PREVISIÓN SOCIAL (IPS) / CHILEATIENDE
+DIRECCIÓN REGIONAL / SUCURSAL: [INDICAR COMUNA O SUCURSAL CHILEATIENDE]
+
+DATOS DEL BENEFICIARIO/A (ADULTO MAYOR):
+Nombre y Apellidos: [TU NOMBRE COMPLETO]
+RUT: [TU RUT]
+Fecha de Nacimiento: [TU FECHA DE NACIMIENTO]
+Domicilio: [TU DIRECCIÓN COMPLETA, COMUNA Y CIUDAD]
+Teléfono de contacto o de familiar: [TU TELÉFONO O EL DE UN HIJO/A DE CONFIANZA]
+
+FOLIO / NOTIFICACIÓN: [NÚMERO DE CARTA O RESOLUCIÓN DEL IPS]
+ASUNTO: Solicitud de Reconsideración y Acreditación de Antecedentes para PGU / Pensión Garantizada Universal
+
+EXPONE:
+1. Que he recibido comunicación oficial respecto al beneficio de Pensión Garantizada Universal (PGU) asignado o postulado bajo el RUT arriba individualizado.
+2. Que manifiesto mi entera voluntad de dar cumplimiento a los requisitos legales de permanencia y vulnerabilidad exigidos por la Ley 21.419, haciendo presente mi condición de persona mayor y mi dependencia económica de este beneficio estatal para mi subsistencia digna.
+3. Que adjunto a esta presentación los antecedentes fidedignos que acreditan mi residencia ininterrumpida en el territorio nacional y mi situación socioeconómica real.
+
+SOLICITA:
+Se tenga por presentada esta solicitud en tiempo y forma, procediéndose a la mantención o restablecimiento inmediato del pago mensual de la PGU, con abono íntegro y retroactivo de las mensualidades retenidas.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma del Beneficiario/a: ____________________________________
+[TU NOMBRE COMPLETO]`,
+
+      justificantes: `AL INSTITUTO DE PREVISIÓN SOCIAL (IPS) / CHILEATIENDE
+SUCURSAL: [COMUNA O CIUDAD]
+
+DATOS DEL PENSIONADO/A:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT: [TU RUT]
+Domicilio: [TU DIRECCIÓN COMPLETA]
+Teléfono: [TU TELÉFONO]
+
+ASUNTO: Acreditación formal de residencia continua en el país para mantención de beneficio PGU
+
+EXPONE:
+1. Que en atención a lo solicitado por esta institución, acompaño la documentación fehaciente que certifica mi permanencia y residencia efectiva en la República de Chile durante los últimos años.
+2. Que a tal fin se adjuntan los siguientes documentos en original y copia:
+   - Certificado de Residencia emitido por la Junta de Vecinos / Notario de mi comuna.
+   - Copia de boletas de servicios básicos a mi nombre y domicilio habitual.
+   - Fotocopia de Cédula Nacional de Identidad vigente.
+
+SOLICITA:
+Tener por acreditado el requisito legal de residencia y registrar formalmente la continuidad ininterrumpida de mi Pensión Garantizada Universal.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`,
+
+      descargo: `AL DIRECTOR/A NACIONAL DEL INSTITUTO DE PREVISIÓN SOCIAL (IPS)
+OFICINA DE PARTES / CHILEATIENDE: [COMUNA O REGIÓN]
+
+DATOS DE LA PERSONA RECLAMANTE:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT: [TU RUT]
+Domicilio: [TU DIRECCIÓN COMPLETA]
+
+ASUNTO: Reclamo formal por suspensión o disminución indebida de Pensión Garantizada Universal (PGU)
+
+EXPONE:
+1. Que con fecha reciente he constatado la falta de depósito o disminución sustancial en el monto mensual de mi pensión, sin mediar resolución fundada notificada legalmente en mi domicilio.
+2. Que cumplo con los 65 años de edad, no pertenezco al 10% más rico de la población y mantengo residencia en Chile conforme exige la Ley 21.419.
+3. Que privar a una persona de la tercera edad de su pensión básica vulnera el derecho a la seguridad social y a la subsistencia mínima garantizada por la Constitución.
+
+SOLICITA:
+Instruir la revisión urgente de los registros, revocar la suspensión aplicada y proceder a la reliquidación inmediata de todos los saldos impagos a mi favor en la cuenta de depósito habitual.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`
+    }
+  },
+
+  ges: {
+    what: "Es un documento de **Garantías Explícitas en Salud (GES / AUGE)** emitido por Fonasa, Hospital o Isapre.",
+    translation: "Tienes una condición médica (como artrosis, cataratas, prótesis de cadera, hipertensión o diabetes) protegida por la Ley GES. Esta ley obliga al hospital o consultorio a darte tu atención, examen o cirugía antes de un plazo máximo. Si el hospital no cumplió el plazo, tienes derecho por ley a que te manden a una clínica privada pagada al 100% por el Estado.",
+    steps: [
+      "Revisar en el papel la fecha en que ingresó tu orden médica GES o la fecha límite de atención.",
+      "Comprobar si el plazo máximo ya venció o si te pospusieron la cita reiteradamente.",
+      "Presentar el escrito de reclamo ante Fonasa o tu Isapre exigiendo la designación inmediata de un Segundo Prestador en 48 horas."
+    ],
+    docs: [
+      "Formulario de Constancia de Notificación de Información al Paciente GES (el papel original firmado con el médico).",
+      "Cédula de Identidad de la persona enferma.",
+      "Orden médica o carnet de citas del consultorio/hospital donde se acredite la postergación."
+    ],
+    warns: [
+      "Tienes **30 días corridos** desde que venció el plazo de tu garantía para reclamar el Segundo Prestador ante Fonasa.",
+      "Una vez presentado el reclamo, Fonasa tiene un plazo obligatorio por ley de solo **48 horas** para asignarte una clínica u hospital de reemplazo."
+    ],
+    chatResponses: {
+      plazo: "Por ley, Fonasa tiene un plazo fatal de 48 horas hábiles para responder a tu reclamo y asignarte un nuevo prestador o clínica si el hospital público no te atendió a tiempo.",
+      documento: "Necesitas tu Cédula de Identidad y la hoja de Notificación GES que te entregó el médico tratante cuando te diagnosticó la enfermedad.",
+      default: "Si el hospital te tiene en lista de espera y tu enfermedad es GES (como cataratas o artrosis), la ley te protege. Exigir el Segundo Prestador es tu derecho y acelera tu atención médica de inmediato."
+    },
+    draftTemplates: {
+      prorroga: `AL FONDO NACIONAL DE SALUD (FONASA) / ISAPRE: [FONASA O NOMBRE DE ISAPRE]
+DIRECCIÓN REGIONAL / SUCURSAL: [COMUNA O CIUDAD]
+
+DATOS DEL PACIENTE BENEFICIARIO/A:
+Nombre y Apellidos: [NOMBRE COMPLETO DEL PACIENTE]
+RUT: [RUT DEL PACIENTE]
+Patología GES diagnosticada: [EJ: CATARATAS / ARTROSIS DE CADERA / HIPERTENSIÓN / DIABETES]
+Centro de Salud derivador: [HOSPITAL O CONSULTORIO ASIGNADO]
+Domicilio: [TU DIRECCIÓN COMPLETA]
+Teléfono de contacto urgente: [TU TELÉFONO O EL DE UN FAMILIAR DIRECTO]
+
+ASUNTO: Reclamo formal por incumplimiento de plazo de Garantía GES y Solicitud urgente de Segundo Prestador (Ley 19.966)
+
+EXPONE:
+1. Que con fecha [FECHA DE NOTIFICACIÓN GES], fui formalmente diagnosticado/a e incorporado/a a la garantía legal de salud para el tratamiento de [NOMBRE DE LA ENFERMEDAD].
+2. Que el plazo legal máximo fijado por el Decreto Supremo GES para la realización de mi [CONSULTA / EXAMEN / INTERVENCIÓN QUIRÚRGICA] venció con fecha [FECHA EN QUE DEBIÓ ATENDERTE], sin que el establecimiento asignado haya otorgado la prestación médica garantizada.
+3. Que el artículo 24 de la Ley 19.966 establece que, ante el vencimiento del plazo garantizado, el afiliado tiene derecho a reclamar ante Fonasa para la designación de un Segundo Prestador.
+
+SOLICITA:
+Se tenga por interpuesto el presente reclamo por garantía vencida y se sirva, dentro del plazo legal improrrogable de 48 HORAS, designar un Segundo Prestador (clínica o establecimiento alternativo) que otorgue la atención requerida a la brevedad.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma del Paciente / Representante: ____________________________________
+[TU NOMBRE Y APELLIDOS]`,
+
+      justificantes: `A LA DIRECCIÓN MÉDICA DEL HOSPITAL / CESFAM: [NOMBRE DEL ESTABLECIMIENTO]
+SERVICIO DE SALUD: [NOMBRE DEL SERVICIO DE SALUD]
+
+DATOS DEL PACIENTE:
+Nombre y Apellidos: [TU NOMBRE COMPLETO]
+RUT: [TU RUT]
+Patología GES: [NOMBRE DE LA ENFERMEDAD]
+Número de Ficha Clínica: [NÚMERO DE FICHA SI LO CONOCES]
+
+ASUNTO: Solicitud formal de entrega urgente de medicamentos esenciales con garantía GES vigente
+
+EXPONE:
+1. Que soy paciente crónico/a con diagnóstico GES confirmado para el tratamiento continuo de mi patología.
+2. Que habiendo concurrido a la farmacia de este establecimiento en las fechas correspondientes a mi entrega periódica, se me ha informado la falta de stock del siguiente fármaco esencial: [NOMBRE DEL MEDICAMENTO O INSUMO].
+3. Que la interrupción de este tratamiento farmacológico pone en riesgo inminente mi salud y calidad de vida, contraviniendo la garantía explícita de calidad y oportunidad que me confiere la ley.
+
+SOLICITA:
+Se disponga de inmediato la provisión extraordinaria o compra alternativa del fármaco requerido para su entrega dentro de las próximas 24 horas.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`,
+
+      descargo: `A LA SUPERINTENDENCIA DE SALUD
+INTENDENCIA DE FONDOS Y SEGUROS PREVISIONALES DE SALUD
+
+DATOS DEL AFILIADO/A RECLAMANTE:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT: [TU RUT]
+Aseguradora: [FONASA / ISAPRE]
+Patología GES: [NOMBRE DE LA ENFERMEDAD]
+
+ASUNTO: Reclamo en segunda instancia por no asignación o demora injustificada de Segundo Prestador GES
+
+EXPONE:
+1. Que habiendo vencido el plazo legal de atención garantizada por mi patología GES, ingresé reclamo formal de Segundo Prestador ante mi aseguradora con fecha [FECHA DE RECLAMO ANTE FONASA/ISAPRE].
+2. Que han transcurrido más de 48 horas sin que se haya designado el centro de reemplazo ni garantizado la prestación médica dentro de los 10 días siguientes como mandata el marco normativo.
+3. Que ante este abandono en la continuidad asistencial, recurro ante este órgano regulador para la tutela efectiva de mis garantías de salud.
+
+SOLICITA:
+Instruir a Fonasa/Isapre la inmediata derivación a un centro privado en convenio y aplicar las sanciones correspondientes por vulneración de garantías legales.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`
+    }
+  },
+
+  contribuciones: {
+    what: "Es el aviso de cobro de **Contribuciones de Bienes Raíces (Impuesto Territorial)** emitido por el SII o Tesorería.",
+    translation: "Es la carta que cobra el impuesto por tu casa o departamento. Si eres una persona de la tercera edad y vives en tu casa, la Ley te protege: tienes derecho a una REBAJA del 100% (no pagar nada) o del 50% de las contribuciones si tus ingresos son de jubilación. ¡No tienes que pagar una fortuna por el techo en el que has vivido siempre!",
+    steps: [
+      "Revisar en el recibo el número de Rol de tu propiedad (ej: Rol 1234-56 de tu comuna).",
+      "Verificar que la propiedad esté a tu nombre o de tu cónyuge y que esté destinada principalmente a habitación.",
+      "Presentar el escrito de Solicitud de Rebaja de Contribuciones para Adulto Mayor ante el Servicio de Impuestos Internos (SII)."
+    ],
+    docs: [
+      "Cédula de Identidad de la persona propietaria (mayor de 60 años en mujeres o mayor de 65 años en hombres).",
+      "Número de Rol de la propiedad (aparece en la esquina superior de la carta).",
+      "Última liquidación de pensión o certificado de ingresos para demostrar el tramo socioeconómico exento."
+    ],
+    warns: [
+      "La ley beneficia a mujeres mayores de 60 años y hombres mayores de 65 años cuyo avalúo fiscal no supere el tope legal.",
+      "Si ya venció una cuota y estás tramitando tu beneficio, tienes derecho a solicitar a Tesorería la suspensión de cobranza y remisión de intereses."
+    ],
+    chatResponses: {
+      plazo: "Las contribuciones vencen habitualmente en abril, junio, septiembre y noviembre. Puedes solicitar la rebaja de adulto mayor en cualquier momento del año ante el SII.",
+      documento: "Solo necesitas tu Rol de avalúo (en la carta) y tu carnet de identidad. El SII verifica tus ingresos de pensión de forma automática en sus sistemas.",
+      descuento: "La ley te rebaja el 100% de la cuota (pagas $0) si tus ingresos mensuales son menores a 13,5 UTA (aprox. $800.000), o el 50% si son menores a 30 UTA.",
+      default: "Como adulto mayor, el Estado no puede cobrarte contribuciones que te dejen sin dinero para comer o comprar remedios. Presenta la solicitud de rebaja de inmediato."
+    },
+    draftTemplates: {
+      prorroga: `AL SERVICIO DE IMPUESTOS INTERNOS (SII)
+DIRECCIÓN REGIONAL / UNIDAD: [UNIDAD DEL SII CORRESPONDIENTE A TU COMUNA]
+
+DATOS DEL PROPIETARIO/A (ADULTO MAYOR):
+Nombre y Apellidos: [TU NOMBRE COMPLETO]
+RUT: [TU RUT]
+Fecha de Nacimiento: [TU FECHA DE NACIMIENTO] (Edad: [TU EDAD] años)
+Domicilio de la propiedad: [DIRECCIÓN COMPLETA DE TU CASA]
+Comuna: [COMUNA DE LA PROPIEDAD]
+ROL DE LA PROPIEDAD: [NÚMERO DE ROL, EJ: 1234-56]
+Teléfono de contacto: [TU TELÉFONO O EL DE UN FAMILIAR]
+
+ASUNTO: Solicitud formal de aplicación del Beneficio de Rebaja de Contribuciones para Adulto Mayor (Leyes 20.732 y 21.210)
+
+EXPONE:
+1. Que soy propietario/a del bien raíz habitacional singularizado con el Rol arriba indicado, el cual constituye mi residencia principal y habitual.
+2. Que a la fecha cumplo con la edad legal requerida (mayor de 60 años mujer / mayor de 65 años varón) y mis ingresos corresponden fundamentalmente a jubilación/pensión básica.
+3. Que el avalúo fiscal y destino habitacional del inmueble cumplen íntegramente con los parámetros fijados por la normativa vigente para gozar de la exención total (100%) o parcial (50%) del Impuesto Territorial.
+
+SOLICITA:
+Se sirva acoger esta presentación, verificar los antecedentes en las bases tributarias y aplicar la rebaja legal retroactiva y permanente sobre las cuotas de contribuciones del inmueble individualizado.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE COMPLETO]`,
+
+      justificantes: `A LA TESORERÍA GENERAL DE LA REPÚBLICA (TGR)
+OFICINA PROVINCIAL / TESORERÍA DE: [CIUDAD O COMUNA]
+
+DATOS DEL CONTRIBUYENTE:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT: [TU RUT]
+ROL DEL INMUEBLE: [NÚMERO DE ROL]
+Dirección: [DIRECCIÓN DE LA PROPIEDAD]
+
+ASUNTO: Solicitud de suspensión preventiva de cobranza de contribuciones y suscripción de convenio especial para persona mayor
+
+EXPONE:
+1. Que mantengo en tramitación ante el Servicio de Impuestos Internos la solicitud de rebaja del impuesto territorial para adultos mayores correspondiente a mi vivienda familiar.
+2. Que a fin de evitar recargos indebidos de reajustes, intereses o acciones de cobro judicial mientras se resuelve dicho beneficio de fondo, solicito la suspensión temporal de acciones coercitivas.
+3. Que manifiesto mi buena fe de formalizar un convenio sin recargos por eventuales diferencias que determine la autoridad fiscal.
+
+SOLICITA:
+Disponer la suspensión temporal de cobranza respecto al Rol singularizado hasta la resolución definitiva del pronunciamiento del SII.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`,
+
+      descargo: `AL SERVICIO DE IMPUESTOS INTERNOS (SII)
+DEPARTAMENTO DE AVALÚOS Y TASACIONES FISCALES
+
+DATOS DEL SOLICITANTE:
+Nombre y Apellidos: [TU NOMBRE Y APELLIDOS]
+RUT: [TU RUT]
+ROL DEL BIEN RAÍZ: [NÚMERO DE ROL]
+
+ASUNTO: Solicitud de rectificación de avalúo fiscal por error de cálculo en superficie o deterioro evidente de vivienda habitacional
+
+EXPONE:
+1. Que tras la última reavaluación fiscal practicada, se ha asignado un valor desproporcionado a mi vivienda particular que no refleja el estado constructivo ni la antigüedad real del inmueble.
+2. Que se trata de una vivienda económica construida hace más de [AÑOS DE ANTIGÜEDAD] años, habitada exclusivamente por adultos mayores jubilados y sin ampliaciones de lujo.
+3. Que el avalúo excesivo distorsiona mi carga impositiva y me priva injustamente de los beneficios sociales de exención tributaria territorial.
+
+SOLICITA:
+Ordenar una inspección ocular o revisión técnica de gabinete para rectificar el avalúo fiscal a su valor fáctico y justo.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`
+    }
+  },
+
+  poder: {
+    what: "Es un **Poder Simple y Mandato Familiar** para cobro de pensión, retiro de medicamentos y trámites oficiales.",
+    translation: "Es un documento legal firmado por ti que le da permiso a tu hijo, nieto o persona de confianza para que haga trámites en tu nombre. Con esta carta tu familiar puede ir al banco o caja de compensación a cobrar tu pensión, o ir al consultorio/hospital a retirar tus remedios sin que tengas que salir de casa, hacer filas con frío o sufrir dolores físicos.",
+    steps: [
+      "Revisar los nombres completos y RUT tanto de quien autoriza (tú) como de quien hará el trámite (tu familiar).",
+      "Imprimir el documento y firmarlo a mano (si puedes, estampa también tu huella dactilar al lado de la firma).",
+      "Adjuntar fotocopia de la cédula de identidad de ambos (ambos lados) para presentar en la caja, banco o consultorio."
+    ],
+    docs: [
+      "Fotocopia de la Cédula de Identidad de la persona adulta mayor que otorga el poder.",
+      "Fotocopia de la Cédula de Identidad de la persona de confianza que realizará el trámite.",
+      "Liquidación de pensión o carnet de consultorio según el trámite a realizar."
+    ],
+    warns: [
+      "Otorga este poder **únicamente a familiares o personas de tu absoluta y total confianza**.",
+      "Este documento es 100% gratuito. Para cobro de pensión en bancos o cajas (Los Héroes, BancoEstado), no necesitas pagar notario: basta el poder simple con copias de carnet."
+    ],
+    chatResponses: {
+      plazo: "El poder simple tiene vigencia legal para el mes del trámite o por hasta 1 año si especificas que es de carácter continuado.",
+      documento: "Basta la carta firmada y la fotocopia de la cédula de identidad de quien autoriza y de quien va a cobrar o retirar los remedios.",
+      default: "Este poder protege a los adultos mayores con movilidad reducida o problemas de salud. Permite que sus seres queridos los ayuden sin que ellos tengan que exponerse a trámites agotadores."
+    },
+    draftTemplates: {
+      prorroga: `PODER SIMPLE PARA COBRO DE PENSIÓN Y BENEFICIOS SOCIALES
+
+A: [CAJA DE COMPENSACIÓN LOS HÉROES / BANCOESTADO / INSTITUCIÓN PAGADORA]
+
+Yo, [NOMBRE COMPLETO DEL ADULTO MAYOR], cédula nacional de identidad N° [TU RUT], de [TU EDAD] años de edad, domiciliado/a en [TU DIRECCIÓN COMPLETA, COMUNA Y CIUDAD], por medio del presente instrumento vengo en conferir PODER ESPECIAL Y SUFICIENTE a:
+
+Don/Doña: [NOMBRE DEL FAMILIAR DE CONFIANZA]
+Cédula nacional de identidad N° [RUT DEL FAMILIAR DE CONFIANZA]
+Parentesco: [EJ: HIJO/A / NIETO/A / CÓNYUGE / HERMANO/A]
+Domiciliado/a en: [DIRECCIÓN DEL FAMILIAR]
+Teléfono de contacto: [TELÉFONO DEL FAMILIAR]
+
+FACULTADES CONFERIDAS:
+Para que en mi nombre y representación concurra a las dependencias de la institución pagadora y proceda a COBRAR Y PERCIBIR ÍNTEGRAMENTE el pago de mi pensión mensual de vejez / PGU / beneficios sociales correspondientes al periodo de [INDICAR MES Y AÑO O PERIODOS SUCESIVOS].
+
+Asimismo, queda facultado/a para firmar planillas, recibos de dinero, liquidaciones de pago y cuanta documentación sea estrictamente necesaria para la materialización del cobro encomendado, dejando constancia de que actúo en pleno uso de mis facultades mentales y en resguardo de mi salud física y movilidad.
+
+Se adjuntan al presente poder fotocopias autorizadas de ambas cédulas de identidad por ambos lados.
+
+Otorgado en [CIUDAD], a [FECHA ACTUAL].
+
+
+________________________________________          ________________________________________
+      FIRMA DEL ADULTO MAYOR (PODERDANTE)               FIRMA DEL FAMILIAR (APODERADO/A)
+               RUT: [TU RUT]                                     RUT: [RUT DEL FAMILIAR]
+(Estampar huella dactilar si lo requiere el banco)`,
+
+      justificantes: `AUTORIZACIÓN SIMPLE PARA RETIRO DE MEDICAMENTOS Y GESTIÓN DE HORAS MÉDICAS
+
+AL CENTRO DE SALUD / HOSPITAL / CESFAM: [NOMBRE DEL ESTABLECIMIENTO DE SALUD]
+COMUNA: [COMUNA DEL CESFAM]
+
+Yo, [NOMBRE COMPLETO DEL ADULTO MAYOR], RUT N° [TU RUT], paciente crónico/a con ficha clínica N° [NÚMERO DE FICHA O CARNET], domiciliado/a en [TU DIRECCIÓN COMPLETA], autorizo expresamente a:
+
+Don/Doña: [NOMBRE DEL FAMILIAR O CUIDADOR/A]
+RUT N° [RUT DEL FAMILIAR]
+Parentesco: [INDICAR PARENTESCO]
+Teléfono: [TELÉFONO DEL FAMILIAR]
+
+Para que en mi nombre y representación pueda:
+1. RETIRAR en la farmacia del establecimiento la totalidad de mis medicamentos de uso crónico e insumos médicos correspondientes a mis recetas vigentes.
+2. SOLICITAR, confirmar o reagendar citas médicas, exámenes clínicos e interconsultas que se encuentren asignadas a mi persona.
+3. Tomar conocimiento y recibir epicrisis o informes médicos derivados de mi atención.
+
+Hago presente que esta autorización se fundamenta en mi condición de salud y movilidad reducida para evitar desplazamientos riesgosos.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+
+________________________________________          ________________________________________
+             FIRMA DEL PACIENTE                               FIRMA DE QUIEN RETIRA
+               RUT: [TU RUT]                                     RUT: [RUT DEL FAMILIAR]`,
+
+      descargo: `PODER Y MANDATO SIMPLE PARA TRÁMITES ANTE EMPRESAS DE SERVICIOS PÚBLICOS Y MUNICIPIO
+
+A: [NOMBRE DE EMPRESA DE AGUA / LUZ / GAS / MUNICIPALIDAD DE TU COMUNA]
+
+Yo, [NOMBRE COMPLETO DEL ADULTO MAYOR], RUT N° [TU RUT], domiciliado/a en [TU DIRECCIÓN COMPLETA], vengo en autorizar ampliamente a:
+
+Don/Doña: [NOMBRE DEL FAMILIAR]
+RUT N° [RUT DEL FAMILIAR]
+Parentesco: [PARENTESCO]
+
+Para que concurra ante sus dependencias a tramitar la aclaración de cobros, solicitud de convenios, ingreso de subsidios de agua potable o aseo domiciliario, entrega de antecedentes y reclamos pertinentes respecto a la cuenta o servicio del inmueble individualizado.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma del Propietario/a / Adulto Mayor: ____________________________________
+RUT: [TU RUT]`
+    }
   }
 };
 

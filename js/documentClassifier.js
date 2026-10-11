@@ -3,21 +3,78 @@
 /**
  * Clasifica un texto en una categoría de trámite conocida según palabras clave
  * @param {string} textVal Texto del documento
- * @returns {"hacienda" | "multa" | "juzgado" | "sueldo" | "custom"}
+ * @returns {"hacienda" | "multa" | "juzgado" | "sueldo" | "pgu" | "ges" | "contribuciones" | "poder" | "custom"}
  */
 export function clasificarTexto(textVal = "") {
   if (!textVal) return "custom";
   const textLower = textVal.toLowerCase();
 
-  // Detección prioritaria de notificaciones tributarias o hacienda
+  // Detección de Poder Simple y Mandatos Familiares (Máxima prioridad)
   if (
-    textLower.includes("hacienda") ||
-    textLower.includes("irpf") ||
-    textLower.includes("impuesto") ||
-    textLower.includes("tributari") ||
-    textLower.includes("renta")
+    textLower.includes("poder simple") ||
+    textLower.includes("poder especial") ||
+    textLower.includes("mandato simple") ||
+    textLower.includes("autorizo a") ||
+    textLower.includes("cobro de pensión") ||
+    textLower.includes("cobro de pension") ||
+    textLower.includes("retiro de medicamentos") ||
+    textLower.includes("retiro de remedios") ||
+    textLower.includes("representación de adulto mayor") ||
+    textLower.includes("representacion de adulto mayor")
   ) {
-    return "hacienda";
+    return "poder";
+  }
+
+  // Detección de Garantías Explícitas en Salud (GES / AUGE) y Fonasa
+  if (
+    textLower.includes("ges") ||
+    textLower.includes("auge") ||
+    textLower.includes("segundo prestador") ||
+    textLower.includes("garantía explícita") ||
+    textLower.includes("garantia explicita") ||
+    textLower.includes("constancia ges") ||
+    textLower.includes("patología ges") ||
+    textLower.includes("patologia ges") ||
+    textLower.includes("lista de espera") ||
+    textLower.includes("cataratas") ||
+    textLower.includes("artrosis")
+  ) {
+    return "ges";
+  }
+
+  // Detección de Contribuciones de Bienes Raíces (Impuesto Territorial Adulto Mayor)
+  if (
+    textLower.includes("contribucion") ||
+    textLower.includes("contribución") ||
+    textLower.includes("contribuciones") ||
+    textLower.includes("impuesto territorial") ||
+    textLower.includes("avaluo fiscal") ||
+    textLower.includes("avalúo fiscal") ||
+    textLower.includes("rol de avalúo") ||
+    textLower.includes("rol de avaluo") ||
+    textLower.includes("bienes raíces") ||
+    textLower.includes("bienes raices")
+  ) {
+    return "contribuciones";
+  }
+
+  // Detección de Pensiones, PGU y trámites del IPS / ChileAtiende
+  if (
+    textLower.includes("pgu") ||
+    textLower.includes("pensión garantizada") ||
+    textLower.includes("pension garantizada") ||
+    textLower.includes("chileatiende") ||
+    textLower.includes("instituto de previsión social") ||
+    textLower.includes("instituto de prevision social") ||
+    textLower.includes("jubilacion") ||
+    textLower.includes("jubilación") ||
+    textLower.includes("montepio") ||
+    textLower.includes("montepío") ||
+    textLower.includes("pilar solidario") ||
+    (textLower.includes("pension") && !textLower.includes("alimento")) ||
+    (textLower.includes("pensión") && !textLower.includes("alimento"))
+  ) {
+    return "pgu";
   }
 
   // Detección de liquidaciones de sueldo / remuneraciones laborales
@@ -42,6 +99,17 @@ export function clasificarTexto(textVal = "") {
     textLower.includes("haberes")
   ) {
     return "sueldo";
+  }
+
+  // Detección tributaria de Hacienda o SII general
+  if (
+    textLower.includes("hacienda") ||
+    textLower.includes("irpf") ||
+    textLower.includes("impuesto") ||
+    textLower.includes("tributari") ||
+    textLower.includes("renta")
+  ) {
+    return "hacienda";
   }
 
   // Detección de citaciones judiciales y tribunales
@@ -75,23 +143,35 @@ export function clasificarTexto(textVal = "") {
 /**
  * Clasifica un archivo por su nombre cuando se procesa de forma simulada
  * @param {string} fileName 
- * @returns {"hacienda" | "multa" | "juzgado" | "custom"}
+ * @returns {"hacienda" | "multa" | "juzgado" | "sueldo" | "pgu" | "ges" | "contribuciones" | "poder" | "custom"}
  */
 export function clasificarArchivo(fileName = "") {
   if (!fileName) return "custom";
   const nameLower = fileName.toLowerCase();
 
+  if (nameLower.includes("pgu") || nameLower.includes("pension") || nameLower.includes("jubilac") || nameLower.includes("ips")) {
+    return "pgu";
+  }
+  if (nameLower.includes("ges") || nameLower.includes("auge") || nameLower.includes("salud") || nameLower.includes("hospital")) {
+    return "ges";
+  }
+  if (nameLower.includes("contribuc") || nameLower.includes("territorial") || nameLower.includes("avaluo") || nameLower.includes("bienes_raices")) {
+    return "contribuciones";
+  }
+  if (nameLower.includes("poder") || nameLower.includes("mandato") || nameLower.includes("autoriza")) {
+    return "poder";
+  }
+  if (nameLower.includes("sueldo") || nameLower.includes("nomina") || nameLower.includes("remunerac")) {
+    return "sueldo";
+  }
   if (nameLower.includes("hacienda") || nameLower.includes("renta") || nameLower.includes("impuesto")) {
     return "hacienda";
   }
   if (nameLower.includes("multa") || nameLower.includes("velocidad") || nameLower.includes("transito") || nameLower.includes("trafico")) {
     return "multa";
   }
-  if (nameLower.includes("citacion") || nameLower.includes("citación") || nameLower.includes("juzgado") || nameLower.includes("demanda")) {
+  if (nameLower.includes("citacion") || nameLower.includes("juzgado") || nameLower.includes("demanda")) {
     return "juzgado";
-  }
-  if (nameLower.includes("sueldo") || nameLower.includes("nomina") || nameLower.includes("nómina") || nameLower.includes("remuneracion")) {
-    return "sueldo";
   }
   return "custom";
 }

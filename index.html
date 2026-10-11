@@ -57,21 +57,20 @@
 
       <span class="acc-separator">|</span>
 
-      <button id="btn-config-api" class="acc-btn" title="Configurar clave API de Gemini" aria-label="Configurar clave API de Gemini">
+      <button id="btn-ayuda" class="acc-btn acc-btn-help" title="¿Cómo funciona TrámiteFácil?" aria-label="¿Cómo funciona TrámiteFácil?">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-          <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 .88-.36 1.68-.93 2.25z"/>
         </svg>
-        <span>API Key</span>
-        <span id="api-status-dot" class="status-dot disconnected"></span>
+        <span>¿Cómo funciona?</span>
       </button>
     </div>
   </header>
 
   <!-- SECCIÓN HERO -->
   <div class="hero">
-    <div class="hero-badge">✦ Impulsado por IA</div>
-    <h1>Entiende cualquier<br><em>documento oficial</em><br>en segundos</h1>
-    <p>Elige cómo cargar tu documento o notificación para explicártelo de manera sencilla.</p>
+    <div class="hero-badge">🟢 100% Gratis · Sin Registro ni Claves</div>
+    <h1>Entiende cualquier<br><em>documento oficial</em><br>en palabras sencillas</h1>
+    <p>Diseñado para personas de la tercera edad y familias. Te lo explicamos en cristiano, te avisamos de los plazos y te preparamos tu carta de respuesta en 1 clic.</p>
   </div>
 
   <!-- TARJETA PRINCIPAL DE CARGA -->
@@ -90,6 +89,16 @@
 
       <!-- Panel: Pegar Texto -->
       <div class="panel active" id="panel-text" role="tabpanel" aria-labelledby="tab-text">
+        <div class="text-actions-bar">
+          <button type="button" id="btn-paste-clipboard" class="btn-paste-clip" aria-label="Pegar texto copiado del portapapeles con un toque">
+            <span aria-hidden="true">📋</span>
+            <span>Pegar texto copiado con 1 toque</span>
+          </button>
+          <button type="button" id="btn-clear-text" class="btn-clear-text" aria-label="Limpiar texto">
+            <span aria-hidden="true">✕</span>
+            <span>Borrar texto</span>
+          </button>
+        </div>
         <textarea id="doc-text" placeholder="Pega aquí el texto del documento legal o notificación oficial…" aria-label="Texto del documento legal o notificación oficial a analizar"></textarea>
         <button class="btn-analyze" id="btn-text-analyze">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -120,6 +129,21 @@
         
         <div id="media-status" class="media-status-msg" style="display:none;"></div>
         
+        <!-- Guía rápida para fotos sin claves técnicas -->
+        <div class="photo-guide-card">
+          <p class="photo-guide-title">💡 Si le tomaste foto a tu papel, toca qué trámite es para darte la solución de inmediato:</p>
+          <div class="photo-types-grid" role="group" aria-label="Tipos de trámite para documento fotografiado">
+            <button type="button" class="btn-photo-type" data-type="pgu">👵 Pensión / PGU (IPS)</button>
+            <button type="button" class="btn-photo-type" data-type="ges">🏥 Salud GES / Fonasa</button>
+            <button type="button" class="btn-photo-type" data-type="contribuciones">🏠 Rebaja Contribuciones</button>
+            <button type="button" class="btn-photo-type" data-type="poder">✍️ Poder Simple Familiar</button>
+            <button type="button" class="btn-photo-type" data-type="sueldo">💼 Liquidación de Sueldo</button>
+            <button type="button" class="btn-photo-type" data-type="multa">🚗 Multa de Tránsito</button>
+            <button type="button" class="btn-photo-type" data-type="juzgado">⚖️ Citación Judicial</button>
+            <button type="button" class="btn-photo-type" data-type="hacienda">📬 Notificación de Impuestos</button>
+          </div>
+        </div>
+
         <button class="btn-analyze" id="btn-media-analyze" style="display:none;">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
           Procesar y Traducir Documento
@@ -337,38 +361,88 @@
 
   <!-- SECCIÓN DE EJEMPLOS PRECARGADOS -->
   <div class="examples" id="examples-area">
-    <h3>Prueba con un ejemplo precargado</h3>
+    <h3>Prueba con un ejemplo precargado (Toca uno para probar de inmediato):</h3>
     <div class="examples-grid">
-      <button class="example-chip" data-example="hacienda">📬 Notificación de Hacienda</button>
-      <button class="example-chip" data-example="multa">🚗 Multa de tráfico</button>
-      <button class="example-chip" data-example="juzgado">⚖️ Citación judicial</button>
+      <button class="example-chip chip-senior" data-example="pgu">👵 Pensión y PGU (IPS)</button>
+      <button class="example-chip chip-senior" data-example="ges">🏥 Salud GES y Operaciones</button>
+      <button class="example-chip chip-senior" data-example="contribuciones">🏠 Rebaja de Contribuciones</button>
+      <button class="example-chip chip-senior" data-example="poder">✍️ Poder Simple Familiar</button>
       <button class="example-chip" data-example="sueldo">💼 Liquidación de Sueldo</button>
+      <button class="example-chip" data-example="hacienda">📬 Notificación de Impuestos</button>
+      <button class="example-chip" data-example="multa">🚗 Multa de Tráfico</button>
+      <button class="example-chip" data-example="juzgado">⚖️ Citación Judicial</button>
     </div>
   </div>
 
   <!-- PIE DE PÁGINA -->
   <footer>
-    <div>TrámiteFácil · Aplicación Oficial de Accesibilidad Ciudadana · Toma decisiones legales siempre con asesoría profesional.</div>
-    <div class="dev-credit">desarrollado por mauricio uribe maldonado</div>
+    <div>TrámiteFácil · Aplicación Oficial de Accesibilidad Ciudadana y Tercera Edad · Gratuita y sin registro.</div>
+    <div class="footer-links">
+      <span class="dev-credit">desarrollado por mauricio uribe maldonado</span>
+      <span class="footer-dot">·</span>
+      <button id="btn-dev-api-trigger" class="dev-api-link" title="Ajustes técnicos avanzados para desarrolladores">⚙️ Modo Desarrollador (Opcional)</button>
+    </div>
   </footer>
 
-  <!-- MODAL DE CONFIGURACIÓN DE CLAVE API -->
+  <!-- MODAL DE AYUDA FÁCIL PARA ADULTOS MAYORES -->
+  <div id="modal-ayuda" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-ayuda-title">
+    <div class="modal-content modal-content-help">
+      <div class="modal-header">
+        <h3 id="modal-ayuda-title">👵 ¿Cómo usar TrámiteFácil en 3 sencillos pasos?</h3>
+        <button id="btn-close-ayuda" class="btn-close" aria-label="Cerrar ventana de ayuda">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="help-steps">
+          <div class="help-step-item">
+            <div class="help-step-badge">1</div>
+            <div class="help-step-content">
+              <h4>Elige un ejemplo o pega tu documento</h4>
+              <p>Toca cualquiera de los botones de colores de abajo (como <strong>Pensión y PGU</strong>, <strong>Salud GES</strong> o <strong>Contribuciones</strong>), o copia el texto de tu carta y toca el botón azul <strong>"📋 Pegar texto copiado con 1 toque"</strong>.</p>
+            </div>
+          </div>
+          <div class="help-step-item">
+            <div class="help-step-badge">2</div>
+            <div class="help-step-content">
+              <h4>Léelo o escúchalo en voz alta</h4>
+              <p>La aplicación te dirá en cristiano qué significa, qué pasos debes seguir y qué plazos tienes. Puedes tocar el botón 🔊 para que el celular te lo lea con voz pausada, o el botón <strong>A+</strong> para agrandar la letra.</p>
+            </div>
+          </div>
+          <div class="help-step-item">
+            <div class="help-step-badge">3</div>
+            <div class="help-step-content">
+              <h4>Tu carta oficial de respuesta lista</h4>
+              <p>Al final verás un escrito formal redactado con las leyes que te defienden. Solo cambia tus datos entre corchetes y toca <strong>"Imprimir / PDF"</strong> para llevarlo firmado.</p>
+            </div>
+          </div>
+        </div>
+        <div class="help-guarantee">
+          <span>🟢 <strong>Garantía Total de Tranquilidad:</strong> Esta aplicación es 100% gratuita. No requiere contraseñas, no guarda tus datos personales y funciona de inmediato en cualquier celular o computador.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-audio-help" class="btn btn-secondary">🔊 Escuchar esta ayuda</button>
+        <button id="btn-understand-help" class="btn btn-primary">¡Entendido, gracias!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIGURACIÓN DE CLAVE API (MODO DESARROLLADOR OPCIONAL) -->
   <div id="modal-api" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-api-title">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="modal-api-title">Configuración de Inteligencia Artificial</h3>
+        <h3 id="modal-api-title">Ajustes Avanzados de Desarrollador (Opcional)</h3>
         <button id="btn-close-modal" class="btn-close" aria-label="Cerrar ventana">✕</button>
       </div>
       <div class="modal-body">
         <p class="modal-desc">
-          Para traducir cualquier documento propio e interactuar con el chat inteligente real, ingresa tu clave de API de <strong>Google Gemini</strong>. Esta clave se guarda de forma segura en tu navegador y no se envía a servidores externos.
+          TrámiteFácil funciona 100% gratis de forma autónoma. Si eres desarrollador o deseas conectar una clave propia de <strong>Google Gemini</strong> para visión artificial en la nube, puedes ingresarla aquí.
         </p>
         <div class="form-group-api">
-          <label for="input-api-key">Clave de API de Gemini</label>
+          <label for="input-api-key">Clave de API de Gemini (Opcional)</label>
           <input type="password" id="input-api-key" placeholder="AIzaSy..." class="form-control" autocomplete="off" />
         </div>
         <p class="api-help-link">
-          ¿No tienes una clave? <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Obtén una clave de API gratis en Google AI Studio</a>.
+          <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Obtener clave en Google AI Studio</a>.
         </p>
       </div>
       <div class="modal-footer">

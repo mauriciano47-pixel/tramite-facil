@@ -32,32 +32,44 @@ Luego abre tu navegador en:
 
 ---
 
-### Procedimiento 3: Configuración de Inteligencia Artificial (Google Gemini)
-La aplicación cuenta con un modo de **Simulación Guiada** integrado que funciona sin internet ni claves. Para habilitar análisis en tiempo real de cualquier documento libre:
-
-1. Ingresa a [Google AI Studio](https://aistudio.google.com/app/apikey) y genera una clave de API gratuita.
-2. En la cabecera de TrámiteFácil, haz clic en el botón con icono de engranaje **"API Key"**.
-3. Pega tu clave de API (`AIzaSy...`) en el campo seguro y presiona **"Guardar Configuración"**.
-4. El indicador cambiará a verde (`Conectado`). Tu clave se almacena exclusivamente en tu navegador (`localStorage`) y nunca pasa por servidores externos.
+### Procedimiento 3: Experiencia Senior-First (100% Plug & Play sin Claves Técnicas)
+Por filosofía de accesibilidad ciudadana, **TrámiteFácil no exige claves, tarjetas ni registros de ningún tipo**:
+1. Funciona de inmediato al abrir la aplicación con ejemplos interactivos y su propio motor heurístico en español.
+2. Si un usuario de la tercera edad o su familia copian un texto en el celular, disponen del botón azul **"📋 Pegar texto copiado con 1 toque"** sin lidiar con menús contextuales.
+3. Si fotografían una carta impresa, la aplicación ofrece un selector táctil para identificar el trámite con 1 toque.
+4. **Modo Desarrollador Opcional:** Si un técnico o programador desea vincular su clave de Google Gemini para OCR multimodal avanzado, dispone de un enlace discreto en el pie de página (*Modo Desarrollador*).
 
 ---
 
 ### Procedimiento 4: Análisis de Documentos y Fotos (Paso a Paso)
 1. **Seleccionar modo de entrada:**
-   - **Pegar texto:** Copia el texto digital de un correo o notificación y pulsa *"Analizar documento pegado"*.
-   - **Sacar Foto:** Usa la cámara de tu teléfono móvil para fotografiar la carta o multa impresa.
+   - **Pegar texto:** Copia el texto digital de un correo o notificación y pulsa *"Analizar documento pegado"*, o usa el botón táctil de portapapeles.
+   - **Sacar Foto:** Usa la cámara de tu teléfono móvil para fotografiar la carta o notificación.
    - **Subir Adjunto:** Selecciona una foto de tu galería o un archivo PDF oficial.
+   - **Ejemplos Rápidos:** Toca cualquiera de los chips de acceso directo:
+     * 👵 **Pensión y PGU (IPS / ChileAtiende):** Acreditación de residencia, reconsideración y reclamos.
+     * 🏥 **Salud GES / AUGE (Fonasa):** Reclamo de Segundo Prestador en 48 horas y entrega de fármacos.
+     * 🏠 **Rebaja de Contribuciones (SII):** Exención del 100% o 50% de impuesto territorial para adultos mayores.
+     * ✍️ **Poder Simple Familiar:** Autorización inmediata para cobro de pensión y retiro de remedios.
+     * 💼 **Liquidación de Sueldo:** Radiografía de haberes imponibles vs no imponibles y deducciones legales.
+     * 📬 **Notificación de Impuestos:** Requerimientos de Hacienda y declaraciones.
+     * 🚗 **Multa de Tránsito:** Partes empadronados y comparendos.
+     * ⚖️ **Citación Judicial:** Juzgados de Policía Local y tribunales.
 2. **Revisión del Resumen Inteligente:**
    - **¿Qué es este documento?:** Identificación precisa del emisor y tipo de trámite.
    - **Traducción simple:** Explicación cotidiana y sin jergas del contenido.
-   - **Radiografía de Liquidación de Sueldo (Innovación v1.3.0):** Si el documento es una nómina o liquidación de sueldo, se despliegan automáticamente 3 tarjetas de resumen (Total Haberes, Total Descuentos y Sueldo Líquido de Bolsillo) junto al desglose pedagógico de cada descuento legal (Salud 7%, AFP 10%, AFC 0.6%, Impuestos y Anticipos) explicando con exactitud por qué se descuenta y a dónde va el dinero.
+   - **Radiografía de Liquidación de Sueldo:** Desglose en 3 tarjetas (Haberes, Descuentos previsionales de Salud 7%, AFP 10%+, Cesantía AFC e Impuestos, y Líquido de Bolsillo).
    - **Pasos a seguir:** Lista enumerada de acciones ordenadas cronológicamente.
    - **Documentos que necesitas:** Papeles y comprobantes requeridos.
    - **Fechas y advertencias:** Plazos fatales (días hábiles vs. corridos) y consecuencias de inacción.
-3. **Generar Carta Oficial de Respuesta en 1 Clic (Innovación v1.2.0 / v1.3.0):**
-   - Selecciona el tipo de contestación:
-     - En trámites administrativos generales: **Solicitud de Prórroga**, **Aportar Documentación** o **Alegaciones / Descargo**.
-     - En liquidaciones de sueldo: **Aclaración de Sueldo a RRHH**, **Acreditar Cargas Familiares** o **Reclamo por Descuento Indebido**.
+3. **Generar Carta Oficial de Respuesta en 1 Clic (Innovación v1.4.0):**
+   - El generador adapta sus 3 botones automáticamente según el tipo de trámite:
+     * **Adultos Mayores / PGU:** Reconsideración de PGU, Acreditación de Residencia, Reclamo por Suspensión.
+     * **Salud GES:** Reclamo Segundo Prestador (48 hrs), Urgencia Medicamentos, Reclamo ante Superintendencia.
+     * **Contribuciones:** Rebaja Adulto Mayor (SII), Suspensión de Cobranza (TGR), Rectificación de Avalúo.
+     * **Poderes:** Poder Cobro Pensión en Banco/Caja, Poder Retiro Medicamentos Cesfam, Poder General.
+     * **Laboral:** Aclaración de Sueldo, Acreditación de Cargas, Reclamo Descuento Indebido (Art. 58).
+     * **Administrativo General:** Solicitud de Prórroga, Aportar Justificantes, Alegaciones / Descargo.
    - Revisa el texto en el folio editable y completa los datos entre corchetes `[COMO ESTE]`.
    - Utiliza **"Copiar Escrito"** para llevarlo al portapapeles o **"Imprimir / PDF"** para obtener una hoja formal A4 completamente limpia sin los menús de la web.
    - Si tienes API Key de Gemini configurada, pulsa **"Regenerar con IA"** para redactar un escrito altamente personalizado según el documento específico analizado.

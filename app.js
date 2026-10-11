@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Radiografía de Remuneraciones / Nómina
     renderSalaryBreakdown(data.salaryBreakdown || null);
 
-    // Adaptar títulos de los botones de escritos legales
-    actualizarBotonesTipoEscrito(!!data.salaryBreakdown);
+    // Adaptar títulos de los botones de escritos legales al contexto del trámite
+    actualizarBotonesTipoEscrito(data);
 
     // Pasos a seguir
     const stepsUl = document.getElementById("r-steps");
@@ -197,25 +197,29 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loaderText) {
       if (isMedia) {
         loaderText.textContent = mediaSourceType === 'camera'
-          ? "📸 Procesando captura de cámara y ejecutando OCR..."
-          : "📁 Leyendo archivo adjunto y extrayendo metadatos...";
+          ? "📸 Procesando captura y organizando pasos del trámite..."
+          : "📁 Leyendo documento y preparando guía en palabras sencillas...";
       } else {
-        loaderText.textContent = "🔍 Analizando la estructura legal y gramatical del texto...";
+        loaderText.textContent = "🔍 Analizando el documento y preparando tu explicación...";
       }
     }
 
     setTimeout(() => {
       if (loaderText) {
-        loaderText.textContent = "⚙️ Traduciendo términos complejos a lenguaje ciudadano sencillo...";
+        loaderText.textContent = "⚙️ Traduciendo a lenguaje ciudadano sencillo...";
       }
 
       setTimeout(() => {
         loader?.classList.remove("show");
         resultPanel?.classList.add("show");
 
-        let data = TRAMITE_EXAMPLES[key];
-        if (!data) {
+        let rawData = TRAMITE_EXAMPLES[key];
+        let data = null;
+        if (rawData) {
+          data = { ...rawData, _key: key };
+        } else {
           data = {
+            _key: "custom",
             what: "Es un **documento personalizado** ingresado manualmente.",
             translation: "Has ingresado un fragmento de texto libre. El sistema detecta que contiene requerimientos administrativos que exigen que realices una acción a la brevedad.",
             steps: [
@@ -223,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
               "Identificar los datos del organismo emisor del documento.",
               "Contactar a la oficina oficial o canal autorizado para responder."
             ],
-            docs: ["Documento Nacional de Identidad (DNI/NIE).", "El texto o carta original del trámite."],
+            docs: ["Documento Nacional de Identidad (DNI/NIE/RUT).", "El texto o carta original del trámite."],
             warns: ["Revisa cuidadosamente si existen plazos de vencimiento en días hábiles."],
             chatResponses: {
               default: "Has subido un documento personalizado. Te recomiendo verificar las firmas y los datos del remitente para evitar fraudes."
@@ -234,8 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
         currentActiveData = data;
         ultimoTextoDocumento = rawText || data.translation;
         renderResult(data);
-      }, 900);
-    }, 900);
+      }, 700);
+    }, 700);
   }
 
   // --- ANÁLISIS REAL CON GEMINI FLASH (CON TIMEOUT DE 8000 MS Y VISIÓN MULTIMODAL) ---
@@ -351,6 +355,40 @@ ${textoDocumento}`;
     }
   }
 
+  // --- BOTONES DE ACCIÓN DE TEXTO (SENIOR-FIRST) ---
+  const btnPasteClipboard = document.getElementById("btn-paste-clipboard");
+  const btnClearText = document.getElementById("btn-clear-text");
+
+  btnPasteClipboard?.addEventListener("click", async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        const text = await navigator.clipboard.readText();
+        if (text && text.trim()) {
+          if (docText) docText.value = text.trim();
+          hablarTexto("Texto copiado pegado con éxito. Ahora presiona analizar.");
+        } else {
+          hablarTexto("No se encontró texto copiado. Escribe o pega tu documento en el recuadro.");
+          docText?.focus();
+        }
+      } else {
+        docText?.focus();
+        hablarTexto("Toca dentro del recuadro para pegar tu texto.");
+      }
+    } catch (err) {
+      console.warn("Acceso a portapapeles bloqueado por el navegador:", err);
+      docText?.focus();
+      hablarTexto("Por favor, mantén presionado el recuadro para pegar tu texto.");
+    }
+  });
+
+  btnClearText?.addEventListener("click", () => {
+    if (docText) {
+      docText.value = "";
+      docText.focus();
+      hablarTexto("Texto borrado.");
+    }
+  });
+
   // --- BOTONES DE ANÁLISIS ---
   btnTextAnalyze?.addEventListener("click", () => {
     const textVal = docText?.value.trim() || "";
@@ -393,12 +431,61 @@ ${textoDocumento}`;
     }
   });
 
+  // --- SELECTOR RÁPIDO DE FOTOS PARA ADULTOS MAYORES ---
+  document.querySelectorAll(".btn-photo-type").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const type = btn.getAttribute("data-type");
+      ejecutarAnalisisLocal(type, "", true);
+    });
+  });
+
   // --- CHIPS DE EJEMPLOS PRECARGADOS ---
   document.querySelectorAll(".example-chip").forEach(chip => {
     chip.addEventListener("click", () => {
       const exampleKey = chip.getAttribute("data-example");
       ejecutarAnalisisLocal(exampleKey, "", false);
     });
+  });
+
+  // --- MODAL DE AYUDA PARA ADULTOS MAYORES ---
+  const btnAyuda = document.getElementById("btn-ayuda");
+  const modalAyuda = document.getElementById("modal-ayuda");
+  const btnCloseAyuda = document.getElementById("btn-close-ayuda");
+  const btnUnderstandHelp = document.getElementById("btn-understand-help");
+  const btnAudioHelp = document.getElementById("btn-audio-help");
+
+  function abrirAyuda() {
+    detenerVoz();
+    modalAyuda?.classList.add("show");
+    modalAyuda?.setAttribute("aria-hidden", "false");
+  }
+
+  function cerrarAyuda() {
+    detenerVoz();
+    modalAyuda?.classList.remove("show");
+    modalAyuda?.setAttribute("aria-hidden", "true");
+  }
+
+  btnAyuda?.addEventListener("click", abrirAyuda);
+  btnCloseAyuda?.addEventListener("click", cerrarAyuda);
+  btnUnderstandHelp?.addEventListener("click", cerrarAyuda);
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modalAyuda) cerrarAyuda();
+  });
+
+  btnAudioHelp?.addEventListener("click", () => {
+    const textoAyuda = "Cómo usar Trámite Fácil en tres sencillos pasos. Paso uno: Elige un ejemplo de los botones de colores, como Pensión y PGU, Salud GES o Contribuciones, o copia el texto de tu carta y toca el botón azul de pegar. Paso dos: Léelo o escúchalo con el botón de voz para conocer tus plazos. Paso tres: Al final tienes tu carta oficial ya redactada, solo cambia tus datos e imprímela. Esta aplicación es cien por ciento gratuita, privada y no requiere registros.";
+    hablarTexto(textoAyuda);
+  });
+
+  // --- MODO DESARROLLADOR OPCIONAL (EN PIE DE PÁGINA) ---
+  const btnDevApiTrigger = document.getElementById("btn-dev-api-trigger");
+  const modalApi = document.getElementById("modal-api");
+  btnDevApiTrigger?.addEventListener("click", () => {
+    detenerVoz();
+    modalApi?.classList.add("show");
+    modalApi?.setAttribute("aria-hidden", "false");
   });
 
   // --- BOTÓN RESTABLECER ---
