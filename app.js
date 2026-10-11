@@ -7,6 +7,7 @@ import { clasificarTexto, clasificarArchivo, limpiarYParsearJSON, fetchConTimeou
 import { renderSalaryBreakdown } from './js/salaryBreakdown.js';
 import { setupDraftGenerator, cargarBorrador, actualizarBotonesTipoEscrito } from './js/draftGenerator.js';
 import { setupChatAssistant, reiniciarChat } from './js/chatAssistant.js';
+import { extraerTextoDeImagen, extraerSueldoDesdeTexto } from './js/ocrEngine.js';
 import { TRAMITE_EXAMPLES } from './data.js';
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -242,8 +243,144 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 700);
   }
 
+  // --- ANÁLISIS REAL MEDIANTE OCR EN EL NAVEGADOR (SIN API KEY / OFFLINE FIRST) ---
+  async function ejecutarOCRReal(file) {
+    panelText?.classList.remove("active");
+    panelUpload?.classList.remove("active");
+    if (mainTabs) mainTabs.style.display = "none";
+    if (examplesArea) examplesArea.style.display = "none";
+
+    loader?.classList.add("show");
+    if (loaderText) {
+      loaderText.textContent = "🔍 Iniciando lector óptico para leer tu imagen...";
+    }
+    hablarTexto("Iniciando lectura óptica de tu imagen. Por favor espera unos momentos.");
+
+    try {
+      const rawText = await extraerTextoDeImagen(file, (pct, status) => {
+        if (loaderText) {
+          loaderText.textContent = status;
+        }
+      });
+
+      loader?.classList.remove("show");
+
+      // Verificación de legibilidad: Si no se extrajo texto o es menor a 15 caracteres
+      if (!rawText || rawText.trim().length < 15) {
+        const dataIlegible = {
+          _key: "custom",
+          what: "⚠️ **No fue posible leer el texto de tu fotografía**",
+          translation: "La imagen que adjuntaste está demasiado desenfocada, tiene sombras oscuras o no contiene texto legible con números claros. Para tu protección, el sistema no inventa información ni montos falsos.",
+          steps: [
+            "Coloca el papel sobre una mesa plana con buena luz directa.",
+            "Toma la fotografía de frente y asegurando que las letras y números se vean nítidos.",
+            "O si lo prefieres, copia o escribe los montos directamente en la pestaña 'Pegar texto'."
+          ],
+          docs: ["Tu documento físico original en papel."],
+          warns: ["Evita enviar fotos movidas, borrosas o con reflejos de flash."],
+          chatResponses: {
+            default: "No logré detectar texto claro en esta imagen. Te recomiendo tomar otra foto más nítida o ingresar los datos manualmente en la pestaña de texto."
+          }
+        };
+
+        currentActiveData = dataIlegible;
+        ultimoTextoDocumento = "";
+        resultPanel?.classList.add("show");
+        renderResult(dataIlegible);
+        return;
+      }
+
+      // Transparencia total: volcar el texto leído en el cuadro de texto
+      if (docText) docText.value = rawText;
+      ultimoTextoDocumento = rawText;
+
+      // Analizar si es una liquidación de sueldo mediante extracción heurística de haberes y descuentos
+      const desgloseSueldo = extraerSueldoDesdeTexto(rawText);
+      const tipoDocumento = clasificarTexto(rawText);
+
+      let data;
+      if (desgloseSueldo || tipoDocumento === "sueldo") {
+        const infoSueldo = desgloseSueldo || {
+          totalHaberes: "A verificar",
+          totalDescuentos: "A verificar",
+          liquidoPagar: "A verificar",
+          haberes: [{ label: "Haberes detectados", amount: "En revisión", type: "imponible", desc: "Revisa la nitidez de la foto" }],
+          descuentos: [{ label: "Descuentos detectados", amount: "En revisión", desc: "Revisa la nitidez de la foto" }],
+          esLecturaReal: true
+        };
+
+        data = {
+          _key: "sueldo",
+          what: "Es una **Liquidación de Sueldo / Nómina de Remuneraciones** leída directamente desde tu imagen.",
+          translation: desgloseSueldo
+            ? `Lectura óptica real completada: Tu total de haberes ganados es de **${desgloseSueldo.totalHaberes}**, tus descuentos obligatorios suman **${desgloseSueldo.totalDescuentos}**, y tu dinero líquido real a recibir en el bolsillo es de **${desgloseSueldo.liquidoPagar}**.`
+            : "Hemos detectado una liquidación de remuneraciones en tu documento. Algunos montos numéricos resultaron difíciles de distinguir con nitidez; por favor revisa el desglose a continuación.",
+          salaryBreakdown: infoSueldo,
+          steps: [
+            "Revisa que tu Sueldo Base coincida con lo pactado en tu contrato de trabajo.",
+            "Comprueba que tus cotizaciones de AFP y Salud (Fonasa/Isapre) hayan sido efectivamente pagadas por tu empleador en Previred.",
+            "Verifica que el monto líquido a pagar haya sido depositado completo en tu cuenta bancaria o entregado en efectivo.",
+            "Firma la copia de conformidad únicamente después de haber recibido el dinero."
+          ],
+          docs: [
+            "Copia de esta liquidación de sueldo con tu firma y la de la empresa.",
+            "Certificado de cotizaciones de tu AFP del último período.",
+            "Contrato de trabajo vigente y anexos de actualización salarial."
+          ],
+          warns: [
+            "El empleador tiene obligación legal de pagar las cotizaciones previsionales hasta el día 10 (o 13 por vía electrónica) del mes siguiente.",
+            "Si existen descuentos no autorizados por ley o por contrato, puedes denunciar ante la Dirección del Trabajo."
+          ],
+          chatResponses: {
+            plazo: "El pago de tu remuneración debe hacerse en la fecha pactada en tu contrato (habitualmente el último día del mes o primeros 5 días del mes siguiente).",
+            documento: "Guarda siempre tus liquidaciones firmadas por al menos 5 años ante cualquier fiscalización o trámite de pensión futura.",
+            default: "He desglosado tus haberes y deducciones directamente de los datos leídos de tu fotografía. Pregúntame sobre cualquier descuento específico."
+          }
+        };
+      } else {
+        const plantilla = TRAMITE_EXAMPLES[tipoDocumento];
+        if (plantilla) {
+          data = {
+            ...plantilla,
+            _key: tipoDocumento,
+            what: `Es una **${plantilla.what.replace(/\*\*/g, '')}** leída desde tu imagen.`
+          };
+        } else {
+          data = {
+            _key: "custom",
+            what: "Es un **documento oficial** leído desde tu imagen.",
+            translation: "Hemos leído el texto de tu fotografía. Contiene instrucciones y requerimientos administrativos que debes atender.",
+            steps: [
+              "Leer atentamente los plazos y fechas señalados en el documento.",
+              "Verificar el organismo o entidad que emite la notificación.",
+              "Acudir al canal oficial o sucursal correspondiente para responder."
+            ],
+            docs: ["Tu Cédula de Identidad (RUT/DNI).", "El documento impreso o fotografiado."],
+            warns: ["Verifica si existen plazos de vencimiento en días hábiles."],
+            chatResponses: {
+              default: "He leído el texto de tu documento. Pregúntame lo que necesites saber sobre sus plazos o pasos a seguir."
+            }
+          };
+        }
+      }
+
+      currentActiveData = data;
+      resultPanel?.classList.add("show");
+      renderResult(data);
+
+    } catch (err) {
+      console.error("Error en procesamiento OCR:", err);
+      loader?.classList.remove("show");
+      hablarTexto("Hubo un problema al procesar la imagen con el lector óptico.");
+      alert("No se pudo completar la lectura óptica de la imagen. Verifica tu conexión a internet o intenta ingresar el texto manualmente en la pestaña Pegar texto.");
+      if (mainTabs) mainTabs.style.display = "flex";
+      if (examplesArea) examplesArea.style.display = "block";
+      switchTab('upload');
+    }
+  }
+
   // --- ANÁLISIS REAL CON GEMINI FLASH (CON TIMEOUT DE 8000 MS Y VISIÓN MULTIMODAL) ---
-  async function ejecutarAnalisisRealGemini(textoDocumento, fileAttachment = null) {
+  async function ejecutarAnalisisRealGemini(textoDocumento, fileAttachment = null, originalFile = null) {
     const apiKey = getApiKey();
     if (!apiKey) return;
 
@@ -348,10 +485,15 @@ ${textoDocumento}`;
       renderResult(parsedData);
 
     } catch (err) {
-      console.warn("Fallo o timeout en Gemini API, conmutando a simulación guiada:", err);
+      console.warn("Fallo o timeout en Gemini API, conmutando a OCR local o simulación guiada:", err);
       loader?.classList.remove("show");
-      hablarTexto("Hubo una demora al conectar con el servidor de inteligencia artificial. Mostrando análisis guiado de respaldo.");
-      ejecutarAnalisisLocal("custom", textoDocumento, !!fileAttachment);
+      if (originalFile) {
+        hablarTexto("No se pudo conectar con el servidor de inteligencia artificial. Leyendo tu documento con el lector óptico del dispositivo.");
+        await ejecutarOCRReal(originalFile);
+      } else {
+        hablarTexto("Hubo una demora al conectar con el servidor de inteligencia artificial. Mostrando análisis guiado de respaldo.");
+        ejecutarAnalisisLocal("custom", textoDocumento, false);
+      }
     }
   }
 
@@ -400,7 +542,59 @@ ${textoDocumento}`;
     const key = getApiKey();
     if (!key) {
       const dataKey = clasificarTexto(textVal);
-      ejecutarAnalisisLocal(dataKey, textVal, false);
+      const desgloseSueldo = extraerSueldoDesdeTexto(textVal);
+
+      // Si el texto pegado es una liquidación de sueldo o contiene cifras, extraer datos reales sin mocks
+      if (desgloseSueldo || dataKey === "sueldo") {
+        const infoSueldo = desgloseSueldo || {
+          totalHaberes: "A verificar",
+          totalDescuentos: "A verificar",
+          liquidoPagar: "A verificar",
+          haberes: [{ label: "Haberes detectados", amount: "En revisión", type: "imponible", desc: "Revisa el texto ingresado" }],
+          descuentos: [{ label: "Descuentos detectados", amount: "En revisión", desc: "Revisa el texto ingresado" }],
+          esLecturaReal: true
+        };
+
+        const dataSueldoReal = {
+          _key: "sueldo",
+          what: "Es una **Liquidación de Sueldo / Nómina de Remuneraciones** analizada desde tu texto.",
+          translation: desgloseSueldo
+            ? `Análisis real de tu liquidación: Tu total de haberes ganados es de **${desgloseSueldo.totalHaberes}**, tus descuentos obligatorios suman **${desgloseSueldo.totalDescuentos}**, y tu dinero líquido que entra al bolsillo es de **${desgloseSueldo.liquidoPagar}**.`
+            : "Se detectaron conceptos de remuneraciones en el texto ingresado. Revisa el desglose de haberes y deducciones.",
+          salaryBreakdown: infoSueldo,
+          steps: [
+            "Revisa que tu Sueldo Base coincida con lo pactado en tu contrato de trabajo.",
+            "Comprueba que tus cotizaciones de AFP y Salud (Fonasa/Isapre) hayan sido efectivamente pagadas por tu empleador en Previred.",
+            "Verifica que el monto líquido a pagar haya sido depositado completo en tu cuenta bancaria o entregado en efectivo.",
+            "Firma la copia de conformidad únicamente después de haber recibido el dinero."
+          ],
+          docs: [
+            "Copia de esta liquidación de sueldo con tu firma y la de la empresa.",
+            "Certificado de cotizaciones de tu AFP del último período.",
+            "Contrato de trabajo vigente y anexos de actualización salarial."
+          ],
+          warns: [
+            "El empleador tiene obligación legal de pagar las cotizaciones previsionales hasta el día 10 (o 13 por vía electrónica) del mes siguiente.",
+            "Si existen descuentos no autorizados por ley o por contrato, puedes denunciar ante la Dirección del Trabajo."
+          ],
+          chatResponses: {
+            plazo: "El pago de tu remuneración debe hacerse en la fecha pactada en tu contrato.",
+            documento: "Guarda siempre tus liquidaciones firmadas por al menos 5 años ante cualquier fiscalización.",
+            default: "He desglosado tus haberes y deducciones directamente de los datos que pegaste."
+          }
+        };
+
+        panelText?.classList.remove("active");
+        panelUpload?.classList.remove("active");
+        if (mainTabs) mainTabs.style.display = "none";
+        if (examplesArea) examplesArea.style.display = "none";
+        currentActiveData = dataSueldoReal;
+        ultimoTextoDocumento = textVal;
+        resultPanel?.classList.add("show");
+        renderResult(dataSueldoReal);
+      } else {
+        ejecutarAnalisisLocal(dataKey, textVal, false);
+      }
     } else {
       ejecutarAnalisisRealGemini(textVal);
     }
@@ -410,23 +604,25 @@ ${textoDocumento}`;
     const file = cameraInput?.files[0] || fileInput?.files[0];
     if (!file) return;
 
+    if (file.size > 15 * 1024 * 1024) {
+      hablarTexto("El archivo es demasiado pesado. Por favor, selecciona un documento de menor tamaño.");
+      alert("El archivo excede los 15MB permitidos.");
+      return;
+    }
+
     const key = getApiKey();
     if (!key) {
-      const dataKey = clasificarArchivo(file.name);
-      ejecutarAnalisisLocal(dataKey, "", true);
+      // Sin API Key (Visitante, nuevo PC o adulto mayor): Reconocimiento Óptico de Caracteres REAL sin datos inventados
+      await ejecutarOCRReal(file);
     } else {
+      // Con API Key: Análisis Gemini Multimodal con fallback a OCR local en caso de error o cuota
       try {
-        if (file.size > 15 * 1024 * 1024) {
-          hablarTexto("El archivo es demasiado pesado. Por favor, selecciona un documento de menor tamaño.");
-          alert("El archivo excede los 15MB permitidos.");
-          return;
-        }
         const base64 = await fileToBase64(file);
         const mimeType = file.type || "image/jpeg";
-        ejecutarAnalisisRealGemini("", { base64, type: mimeType, name: file.name });
+        await ejecutarAnalisisRealGemini("", { base64, type: mimeType, name: file.name }, file);
       } catch (err) {
-        console.error("Error al procesar archivo:", err);
-        ejecutarAnalisisLocal("custom", "", true);
+        console.error("Error al preparar archivo para Gemini, conmutando a OCR local:", err);
+        await ejecutarOCRReal(file);
       }
     }
   });
