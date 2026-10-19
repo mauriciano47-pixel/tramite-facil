@@ -9,6 +9,7 @@ import { setupDraftGenerator, cargarBorrador, actualizarBotonesTipoEscrito } fro
 import { setupChatAssistant, reiniciarChat } from './js/chatAssistant.js';
 import { extraerTextoDeImagen, extraerSueldoDesdeTexto } from './js/ocrEngine.js';
 import { TRAMITE_EXAMPLES } from './data.js';
+import { createCheckoutSession } from './js/stripeService.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- ESTADO GENERAL DE LA APLICACIÓN ---
@@ -682,6 +683,55 @@ ${textoDocumento}`;
     detenerVoz();
     modalApi?.classList.add("show");
     modalApi?.setAttribute("aria-hidden", "false");
+  });
+
+  // --- MODAL DE PLANES & MONETIZACIÓN STRIPE (M&A READY) ---
+  const btnPlanes = document.getElementById("btn-planes");
+  const modalPlanes = document.getElementById("modal-planes");
+  const btnClosePlanes = document.getElementById("btn-close-planes");
+  const btnDismissPlanes = document.getElementById("btn-dismiss-planes");
+  const btnCheckoutAnnual = document.getElementById("btn-checkout-annual");
+  const btnCheckoutB2B = document.getElementById("btn-checkout-b2b");
+
+  function abrirPlanes() {
+    detenerVoz();
+    modalPlanes?.classList.add("show");
+    modalPlanes?.setAttribute("aria-hidden", "false");
+  }
+
+  function cerrarPlanes() {
+    modalPlanes?.classList.remove("show");
+    modalPlanes?.setAttribute("aria-hidden", "true");
+  }
+
+  btnPlanes?.addEventListener("click", abrirPlanes);
+  btnClosePlanes?.addEventListener("click", cerrarPlanes);
+  btnDismissPlanes?.addEventListener("click", cerrarPlanes);
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modalPlanes) cerrarPlanes();
+    if (e.target === modalAyuda) cerrarAyuda();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (modalPlanes?.classList.contains("show")) cerrarPlanes();
+      if (modalAyuda?.classList.contains("show")) cerrarAyuda();
+    }
+  });
+
+  btnCheckoutAnnual?.addEventListener("click", () => {
+    const session = createCheckoutSession('prod_tramite_pro_annual');
+    if (session.checkoutUrl) {
+      window.open(session.checkoutUrl, '_blank', 'noopener,noreferrer');
+    }
+  });
+
+  btnCheckoutB2B?.addEventListener("click", () => {
+    const session = createCheckoutSession('prod_tramite_gestoria_b2b');
+    if (session.checkoutUrl) {
+      window.open(session.checkoutUrl, '_blank', 'noopener,noreferrer');
+    }
   });
 
   // --- BOTÓN RESTABLECER ---

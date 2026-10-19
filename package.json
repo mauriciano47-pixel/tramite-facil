@@ -1,10 +1,11 @@
 {
   "name": "tramite-facil",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Asistente de Accesibilidad Ciudadana, Análisis de Documentos Oficiales, Lector Óptico OCR Real y Radiografía de Remuneraciones",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "test:all": "node --test tests/*.test.js && node test_senior_features.js"
   },
   "keywords": [
     "accesibilidad",

@@ -93,6 +93,12 @@ export function setupApiKeyModal(onStatusChange = null) {
     }
   });
 
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalApi.classList.contains("show")) {
+      cerrarModal();
+    }
+  });
+
   if (btnSaveApi && inputApiKey) {
     btnSaveApi.addEventListener("click", () => {
       const key = inputApiKey.value.trim();

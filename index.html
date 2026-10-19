@@ -66,6 +66,12 @@
         </svg>
         <span>¿Cómo funciona?</span>
       </button>
+
+      <span class="acc-separator">|</span>
+
+      <button id="btn-planes" class="acc-btn acc-btn-pro" title="Planes Comerciales & Licencias GovTech" aria-label="Ver Planes Comerciales y Licencias">
+        <span>💎 Planes</span>
+      </button>
     </div>
   </header>
 
@@ -353,7 +359,7 @@
           <div class="chat-header">💬 Pregunta lo que no entiendas</div>
           <div class="chat-messages" id="chat-messages"></div>
           <div class="chat-input-row">
-            <input class="chat-input" id="chat-input" placeholder="Pregunta lo que sea sobre este documento..." aria-label="Pregunta sobre este documento" />
+            <input class="chat-input" id="chat-input" name="chat_query" placeholder="Pregunta lo que sea sobre este documento..." aria-label="Pregunta sobre este documento" autocomplete="off" autocapitalize="sentences" spellcheck="true" />
             <button class="chat-send" id="btn-chat-send">Enviar</button>
           </div>
         </div>
@@ -442,7 +448,7 @@
         </p>
         <div class="form-group-api">
           <label for="input-api-key">Clave de API de Gemini (Opcional)</label>
-          <input type="password" id="input-api-key" placeholder="AIzaSy..." class="form-control" autocomplete="off" />
+          <input type="password" id="input-api-key" name="password" placeholder="AIzaSy..." class="form-control" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" />
         </div>
         <p class="api-help-link">
           <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Obtener clave en Google AI Studio</a>.
@@ -451,6 +457,76 @@
       <div class="modal-footer">
         <button id="btn-delete-api" class="btn btn-secondary">Eliminar Clave</button>
         <button id="btn-save-api" class="btn btn-primary">Guardar Configuración</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE PLANES COMERCIALES & SUSCRIPCIÓN STRIPE (MICRO-SAAS M&A READY) -->
+  <div id="modal-planes" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-planes-title">
+    <div class="modal-content modal-content-planes">
+      <div class="modal-header">
+        <h3 id="modal-planes-title">💎 Planes & Licencias GovTech (M&A Ready)</h3>
+        <button id="btn-close-planes" class="btn-close" aria-label="Cerrar ventana de planes">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          TrámiteFácil ofrece tecnología de accesibilidad jurídica gratuita para toda la ciudadanía, con opciones de cobro llave en mano listas para monetización SaaS y B2B.
+        </p>
+        
+        <div class="pricing-grid">
+          <!-- Plan Gratuito -->
+          <div class="pricing-card card-free active">
+            <div class="plan-tag">Activo</div>
+            <div class="plan-title">Ciudadano Estándar</div>
+            <div class="plan-price">Gratis <span>/ Siempre</span></div>
+            <ul class="plan-features">
+              <li>✔ OCR Local 100% en Navegador (Tesseract WASM)</li>
+              <li>✔ Explicación en lenguaje claro sin tecnicismos</li>
+              <li>✔ Plantillas de descargos básicas en PDF</li>
+              <li>✔ 0 Registro ni recopilación de datos privados</li>
+            </ul>
+            <button class="btn btn-secondary btn-plan-action" disabled>Plan Actual</button>
+          </div>
+
+          <!-- Plan Express / Anual -->
+          <div class="pricing-card card-featured">
+            <div class="plan-tag tag-featured">Recomendado B2C</div>
+            <div class="plan-title">Pack Ciudadano & Emprendedor</div>
+            <div class="plan-price">$29.99 <span>USD / año ($2.49/mes)</span></div>
+            <ul class="plan-features">
+              <li>✔ Redacción avanzada de alegaciones y prórrogas</li>
+              <li>✔ Recursos de reposición oficiales (Hacienda/Tráfico)</li>
+              <li>✔ Radiografía salarial y cálculo de finiquito</li>
+              <li>✔ Chat ilimitado para consultas burocráticas</li>
+            </ul>
+            <button id="btn-checkout-annual" class="btn btn-primary btn-plan-action" data-plan="prod_tramite_pro_annual">
+              💳 Suscribirme con Stripe
+            </button>
+          </div>
+
+          <!-- Plan Gestoría B2B -->
+          <div class="pricing-card card-b2b">
+            <div class="plan-tag tag-b2b">Licencia B2B</div>
+            <div class="plan-title">Licencia Gestoría & Asesoría</div>
+            <div class="plan-price">$149.00 <span>USD / año</span></div>
+            <ul class="plan-features">
+              <li>✔ Procesamiento masivo por lotes de documentos</li>
+              <li>✔ Exportación estructurada en CSV y JSON</li>
+              <li>✔ Soporte multi-despacho y opción marca blanca</li>
+              <li>✔ Factura deducible con IVA/Tax ID internacional</li>
+            </ul>
+            <button id="btn-checkout-b2b" class="btn btn-outline btn-plan-action" data-plan="prod_tramite_gestoria_b2b">
+              🏛️ Contratar Licencia B2B
+            </button>
+          </div>
+        </div>
+
+        <div class="pricing-guarantee">
+          <span>🛡️ Pagos procesados de forma segura mediante <strong>Stripe Checkout</strong> con cifrado AES-256 y cumplimiento PCI-DSS SAQ-A.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-dismiss-planes" class="btn btn-secondary">Continuar Explorando Gratis</button>
       </div>
     </div>
   </div>
