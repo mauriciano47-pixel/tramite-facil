@@ -153,6 +153,7 @@ export function actualizarBotonesTipoEscrito(context) {
   } else if (context && typeof context === "object") {
     if (context.salaryBreakdown) tipo = "sueldo";
     else if (context._key) tipo = context._key;
+    else if (context.severanceBreakdown) tipo = "finiquito";
     else if (context.what) {
       const w = context.what.toLowerCase();
       if (w.includes("pgu") || w.includes("pensión") || w.includes("pension")) tipo = "pgu";
@@ -162,7 +163,11 @@ export function actualizarBotonesTipoEscrito(context) {
     }
   }
 
-  if (tipo === "sueldo") {
+  if (tipo === "finiquito") {
+    renderButtonMarkup(btnProrroga, "🛡️", "Reserva de Derechos (Ley 21.361)", "Texto para escribir de puño y letra al firmar", "Seleccionar Cláusula de Reserva de Derechos");
+    renderButtonMarkup(btnJustificantes, "⚖️", "Impugnar Descuento AFC", "Exigir restitución del aporte patronal de cesantía", "Seleccionar Impugnación de Descuento AFC");
+    renderButtonMarkup(btnDescargo, "📑", "Reclamo Despido / DT", "Denuncia ante Inspección del Trabajo por despido", "Seleccionar Reclamo por Despido Injustificado");
+  } else if (tipo === "sueldo") {
     renderButtonMarkup(btnProrroga, "📝", "Aclaración de Sueldo", "Pedir informe de cálculos a RRHH", "Seleccionar escrito de Solicitud de Aclaración de Sueldo");
     renderButtonMarkup(btnJustificantes, "📑", "Acreditar Cargas / Asignación", "Entregar certificados de asignaciones", "Seleccionar escrito de Acreditación de Cargas y Asignaciones");
     renderButtonMarkup(btnDescargo, "⚖️", "Reclamo Descuento Indebido", "Exigir restitución de montos no autorizados", "Seleccionar escrito de Reclamo por Descuento Indebido");
@@ -247,17 +252,24 @@ export function setupDraftGenerator(getActiveDataFn, getLastTextFn) {
       const activeData = getActiveDataFn();
       cargarBorrador(tipo, activeData);
 
-      const nombresTipos = (activeData && activeData.salaryBreakdown)
-        ? {
-            prorroga: "Solicitud de aclaración de sueldo",
-            justificantes: "Acreditación de cargas familiares y asignaciones",
-            descargo: "Reclamo formal por descuento indebido"
-          }
-        : {
-            prorroga: "Solicitud de prórroga",
-            justificantes: "Aportación de documentación",
-            descargo: "Alegaciones y descargo"
-          };
+      let nombresTipos = {
+        prorroga: "Solicitud de prórroga",
+        justificantes: "Aportación de documentación",
+        descargo: "Alegaciones y descargo"
+      };
+      if (activeData && (activeData._key === 'finiquito' || activeData.severanceBreakdown)) {
+        nombresTipos = {
+          prorroga: "Cláusula de Reserva de Derechos para Notaría",
+          justificantes: "Impugnación por Descuento AFC",
+          descargo: "Reclamo por Despido Injustificado ante la DT"
+        };
+      } else if (activeData && activeData.salaryBreakdown) {
+        nombresTipos = {
+          prorroga: "Solicitud de aclaración de sueldo",
+          justificantes: "Acreditación de cargas familiares y asignaciones",
+          descargo: "Reclamo formal por descuento indebido"
+        };
+      }
       hablarTexto(`Borrador cambiado a ${nombresTipos[tipo] || tipo}. Puedes editar el texto en pantalla.`);
     });
   });

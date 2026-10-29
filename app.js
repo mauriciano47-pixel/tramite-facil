@@ -8,6 +8,7 @@ import { renderSalaryBreakdown } from './js/salaryBreakdown.js';
 import { setupDraftGenerator, cargarBorrador, actualizarBotonesTipoEscrito } from './js/draftGenerator.js';
 import { setupChatAssistant, reiniciarChat } from './js/chatAssistant.js';
 import { extraerTextoDeImagen, extraerSueldoDesdeTexto } from './js/ocrEngine.js';
+import { calcularFiniquitoLegal, extraerDatosFiniquitoDesdeTexto } from './js/severanceCalculator.js';
 import { TRAMITE_EXAMPLES } from './data.js';
 import { createCheckoutSession } from './js/stripeService.js';
 
@@ -113,6 +114,101 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- RENDERIZADO DE RESULTADOS ---
+  
+  // --- RENDERIZADO DEL VERIFICADOR DE FINIQUITO Y ESCUDO DE NOTARÍA ---
+  function renderSeveranceBreakdown(sevData) {
+    const sevSection = document.getElementById("r-severance-section");
+    if (!sevSection) return;
+
+    if (!sevData) {
+      sevSection.style.display = "none";
+      return;
+    }
+
+    sevSection.style.display = "block";
+
+    const totalEl = document.getElementById("sev-total-estimado");
+    const anosEl = document.getElementById("sev-anos-monto");
+    const anosNotaEl = document.getElementById("sev-anos-nota");
+    const avisoEl = document.getElementById("sev-aviso-monto");
+    const vacacionesEl = document.getElementById("sev-vacaciones-monto");
+    const shieldBox = document.getElementById("sev-shield-box");
+
+    if (totalEl) totalEl.textContent = sevData.totalEstimado || "$0";
+    if (anosEl) anosEl.textContent = sevData.indemnizacionAnos || "$0";
+    if (anosNotaEl) anosNotaEl.textContent = `${sevData.anosComputables || 0} años computables por ley`;
+    if (avisoEl) avisoEl.textContent = sevData.indemnizacionAvisoPrevio || "$0";
+    if (vacacionesEl) vacacionesEl.textContent = sevData.feriadoProporcional || "$0";
+    if (shieldBox) shieldBox.textContent = `"${sevData.textoReserva || ''}"`;
+
+    // Sincronizar inputs de la mini-calculadora
+    const inputSueldo = document.getElementById("sim-sueldo");
+    const inputAnos = document.getElementById("sim-anos");
+    if (inputSueldo && sevData.sueldoBase) {
+      const numSueldo = parseInt(String(sevData.sueldoBase).replace(/[^0-9]/g, ""), 10);
+      if (!isNaN(numSueldo) && numSueldo > 0) inputSueldo.value = numSueldo;
+    }
+    if (inputAnos && sevData.anosComputables !== undefined) {
+      inputAnos.value = sevData.anosComputables;
+    }
+  }
+
+  // Eventos de Finiquito y Escudo de Notaría
+  const btnCopyShield = document.getElementById("btn-copy-shield");
+  const btnAudioShield = document.getElementById("btn-audio-shield");
+  const btnAudioSeverance = document.getElementById("btn-audio-severance");
+  const btnRecalculateSev = document.getElementById("btn-recalculate-sev");
+
+  btnCopyShield?.addEventListener("click", async () => {
+    const shieldBox = document.getElementById("sev-shield-box");
+    if (!shieldBox) return;
+    const textToCopy = shieldBox.textContent.replace(/^"|"$/g, "").trim();
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      btnCopyShield.textContent = "¡Copiado! ✓";
+      hablarTexto("Cláusula de reserva de derechos copiada con éxito para escribirla al firmar.");
+      setTimeout(() => {
+        btnCopyShield.textContent = "📋 Copiar texto para escribir al firmar";
+      }, 2500);
+    } catch {
+      hablarTexto("Selecciona el texto del recuadro para copiarlo.");
+    }
+  });
+
+  btnAudioShield?.addEventListener("click", () => {
+    const shieldBox = document.getElementById("sev-shield-box");
+    if (!shieldBox) return;
+    hablarTexto("Cláusula de reserva de derechos para notaría. " + shieldBox.textContent);
+  });
+
+  btnAudioSeverance?.addEventListener("click", () => {
+    const totalEl = document.getElementById("sev-total-estimado");
+    const anosEl = document.getElementById("sev-anos-monto");
+    const avisoEl = document.getElementById("sev-aviso-monto");
+    const vacacionesEl = document.getElementById("sev-vacaciones-monto");
+    const msg = `Verificador de finiquito. Total a recibir estimado: ${totalEl?.textContent || '$0'}. Indemnización por años de servicio: ${anosEl?.textContent || '$0'}. Mes de aviso previo: ${avisoEl?.textContent || '$0'}. Vacaciones proporcionales: ${vacacionesEl?.textContent || '$0'}.`;
+    hablarTexto(msg);
+  });
+
+  btnRecalculateSev?.addEventListener("click", () => {
+    const sVal = parseFloat(document.getElementById("sim-sueldo")?.value || "0");
+    const aVal = parseInt(document.getElementById("sim-anos")?.value || "0", 10);
+    const mVal = parseInt(document.getElementById("sim-meses")?.value || "0", 10);
+    const vVal = parseInt(document.getElementById("sim-vacaciones")?.value || "0", 10);
+
+    const recalculado = calcularFiniquitoLegal({
+      sueldoBase: sVal,
+      anosTrabajados: aVal,
+      mesesFraccion: mVal,
+      avisoPrevioDado: false,
+      diasVacacionesPendientes: vVal,
+      causal: 'necesidades_empresa'
+    });
+
+    renderSeveranceBreakdown(recalculado);
+    hablarTexto(`Finiquito recalculado. Tu total legal a cobrar es de ${recalculado.totalEstimado}.`);
+  });
+
   function renderResult(data) {
     const rWhat = document.getElementById("r-what");
     const rTranslation = document.getElementById("r-translation");
@@ -121,6 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Radiografía de Remuneraciones / Nómina
     renderSalaryBreakdown(data.salaryBreakdown || null);
+    renderSeveranceBreakdown(data.severanceBreakdown || null);
 
     // Adaptar títulos de los botones de escritos legales al contexto del trámite
     actualizarBotonesTipoEscrito(data);
@@ -295,12 +392,49 @@ document.addEventListener("DOMContentLoaded", () => {
       if (docText) docText.value = rawText;
       ultimoTextoDocumento = rawText;
 
-      // Analizar si es una liquidación de sueldo mediante extracción heurística de haberes y descuentos
+      // Analizar si es finiquito/despido o liquidación de sueldo mediante extracción heurística
+      const datosFiniquito = extraerDatosFiniquitoDesdeTexto(rawText);
       const desgloseSueldo = extraerSueldoDesdeTexto(rawText);
       const tipoDocumento = clasificarTexto(rawText);
 
       let data;
-      if (desgloseSueldo || tipoDocumento === "sueldo") {
+      if (datosFiniquito || tipoDocumento === "finiquito") {
+        const infoFiniquito = datosFiniquito || calcularFiniquitoLegal({
+          sueldoBase: 700000,
+          anosTrabajados: 2,
+          mesesFraccion: 0,
+          avisoPrevioDado: false,
+          diasVacacionesPendientes: 10,
+          causal: 'necesidades_empresa'
+        });
+
+        data = {
+          _key: "finiquito",
+          what: "Es una **Carta de Despido / Propuesta de Finiquito Laboral** leída directamente desde tu imagen.",
+          translation: `Lectura óptica de término laboral: Tu indemnización estimada por ley es de **${infoFiniquito.totalEstimado}**. Incluye indemnización por años de servicio, mes de aviso y vacaciones proporcionales. Recuerda no firmar sin tu Reserva de Derechos.`,
+          severanceBreakdown: infoFiniquito,
+          steps: [
+            "Verificar que tus cotizaciones de AFP, Salud y AFC se encuentren pagadas al 100% al día del despido.",
+            "Revisar que el cálculo de años de servicio compute 1 mes por cada año o fracción mayor a 6 meses.",
+            "Comprobar que no te descuenten indebidamente el aporte patronal de la AFC.",
+            "Al firmar en la notaría o en la Dirección del Trabajo, escribir a mano la Cláusula de Reserva de Derechos generada en pantalla."
+          ],
+          docs: [
+            "Carta de aviso de despido o propuesta de finiquito.",
+            "Certificado de cotizaciones de tu AFP pagadas al día.",
+            "Contrato de trabajo original y últimas liquidaciones."
+          ],
+          warns: [
+            "⚠️ Nunca firmes en notaría sin escribir la Reserva de Derechos o perderás la opción de demandar por cobros pendientes.",
+            "El empleador tiene 10 días hábiles para pagar y poner a disposición el finiquito."
+          ],
+          chatResponses: {
+            plazo: "El empleador tiene 10 días hábiles para entregarte el finiquito. Tienes 60 días para reclamar ante la Dirección del Trabajo.",
+            documento: "Guarda tu carta de despido, contrato de trabajo y certificado de cotizaciones de AFP al día.",
+            default: "He analizado tu finiquito desde la foto. Revisa las cifras y utiliza la Cláusula de Reserva de Derechos al firmar."
+          }
+        };
+      } else if (desgloseSueldo || tipoDocumento === "sueldo") {
         const infoSueldo = desgloseSueldo || {
           totalHaberes: "A verificar",
           totalDescuentos: "A verificar",
@@ -543,7 +677,56 @@ ${textoDocumento}`;
     const key = getApiKey();
     if (!key) {
       const dataKey = clasificarTexto(textVal);
+      const datosFiniquito = extraerDatosFiniquitoDesdeTexto(textVal);
       const desgloseSueldo = extraerSueldoDesdeTexto(textVal);
+
+      if (datosFiniquito || dataKey === "finiquito") {
+        const infoFiniquito = datosFiniquito || calcularFiniquitoLegal({
+          sueldoBase: 700000,
+          anosTrabajados: 2,
+          mesesFraccion: 0,
+          avisoPrevioDado: false,
+          diasVacacionesPendientes: 10,
+          causal: 'necesidades_empresa'
+        });
+
+        const dataFiniquitoReal = {
+          _key: "finiquito",
+          what: "Es una **Carta de Despido / Propuesta de Finiquito Laboral** analizada desde tu texto.",
+          translation: `Análisis de término laboral: Tu indemnización legal estimada asciende a **${infoFiniquito.totalEstimado}**. Exige el pago completo de años trabajados y vacaciones proporcionales.`,
+          severanceBreakdown: infoFiniquito,
+          steps: [
+            "Verificar que tus cotizaciones de AFP, Salud y AFC se encuentren pagadas al 100% al día del despido.",
+            "Revisar que el cálculo de años de servicio compute 1 mes por cada año o fracción mayor a 6 meses.",
+            "Comprobar que no te descuenten indebidamente el aporte patronal de la AFC.",
+            "Al firmar en notaría o portal de la Dirección del Trabajo, escribe a mano la Cláusula de Reserva de Derechos generada en pantalla."
+          ],
+          docs: [
+            "Carta de despido o aviso de término de contrato.",
+            "Certificado de cotizaciones previsionales de tu AFP pagadas al día.",
+            "Contrato de trabajo y últimas 3 liquidaciones de sueldo."
+          ],
+          warns: [
+            "⚠️ Nunca firmes en notaría sin escribir la Reserva de Derechos o perderás la opción de demandar por cobros pendientes.",
+            "El empleador tiene 10 días hábiles para pagar y poner a disposición el finiquito."
+          ],
+          chatResponses: {
+            plazo: "El empleador tiene 10 días hábiles para entregarte el finiquito. Tienes 60 días para reclamar ante la Dirección del Trabajo.",
+            documento: "Guarda tu carta de despido, contrato de trabajo y certificado de cotizaciones de AFP al día.",
+            default: "He analizado tu finiquito desde el texto ingresado. Revisa las cifras y utiliza la Cláusula de Reserva de Derechos al firmar."
+          }
+        };
+
+        panelText?.classList.remove("active");
+        panelUpload?.classList.remove("active");
+        if (mainTabs) mainTabs.style.display = "none";
+        if (examplesArea) examplesArea.style.display = "none";
+        currentActiveData = dataFiniquitoReal;
+        ultimoTextoDocumento = textVal;
+        resultPanel?.classList.add("show");
+        renderResult(dataFiniquitoReal);
+        return;
+      }
 
       // Si el texto pegado es una liquidación de sueldo o contiene cifras, extraer datos reales sin mocks
       if (desgloseSueldo || dataKey === "sueldo") {
@@ -748,6 +931,8 @@ ${textoDocumento}`;
     ultimoTextoDocumento = "";
 
     const salarySection = document.getElementById("r-salary-section");
+    const sevSection = document.getElementById("r-severance-section");
+    if (sevSection) sevSection.style.display = "none";
     if (salarySection) salarySection.style.display = "none";
     actualizarBotonesTipoEscrito(false);
 

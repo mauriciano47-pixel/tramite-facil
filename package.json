@@ -1,7 +1,7 @@
 {
   "name": "tramite-facil",
   "version": "1.6.0",
-  "description": "Asistente de Accesibilidad Ciudadana, Análisis de Documentos Oficiales, Lector Óptico OCR Real y Radiografía de Remuneraciones",
+  "description": "Asistente de Accesibilidad Ciudadana, Análisis de Documentos Oficiales, Lector Óptico OCR Real, Radiografía Salarial y Verificador de Finiquitos (Ley 21.361)",
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",

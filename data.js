@@ -216,6 +216,43 @@ export const TRAMITE_EXAMPLES = {
       default: "Este poder protege a los adultos mayores con movilidad reducida o problemas de salud. Permite que sus seres queridos los ayuden sin que ellos tengan que exponerse a trámites agotadores."
     },
     draftTemplates: DRAFT_TEMPLATES.poder
+  },
+  finiquito: {
+    what: "Es una **Carta de Despido / Propuesta de Finiquito Laboral** (Término de Contrato de Trabajo).",
+    translation: "Tu empleador te está notificando el término de tu relación laboral. La ley establece que deben pagarte todas tus indemnizaciones por años trabajados, el mes de aviso previo si te avisaron el mismo día, y los días de vacaciones que no alcanzaste a tomar. **Muy importante:** Nunca firmes en notaría sin escribir de tu puño y letra la Cláusula de Reserva de Derechos que te entregamos aquí para que no pierdas tu derecho a reclamar.",
+    steps: [
+      "Verificar que tus cotizaciones de AFP, Fonasa/Isapre y AFC estén pagadas al día hasta el último mes (si hay deuda, rige la Ley Bustos y el despido no tiene validez legal).",
+      "Revisar que la causal invocada (ej: Art. 161 Necesidades de la Empresa) incluya el pago de 1 mes de sueldo por cada año trabajado.",
+      "Comprobar que te compensen en dinero todos tus días de vacaciones pendientes (Feriado Proporcional).",
+      "Al momento de firmar en la notaría o en el portal de la Dirección del Trabajo, escribir a mano la Cláusula de Reserva de Derechos que te preparamos en pantalla."
+    ],
+    docs: [
+      "Carta de despido o aviso de término de contrato de trabajo.",
+      "Certificado de cotizaciones previsionales de tu AFP actualizado al día del despido.",
+      "Contrato de trabajo original y últimas 3 liquidaciones de sueldo."
+    ],
+    warns: [
+      "⚠️ Si firmas el finiquito en conformidad sin escribir la Reserva de Derechos, la ley asume que aceptas todo y no podrás demandar cobros pendientes ni despido injustificado.",
+      "El empleador tiene un plazo legal estricto de 10 días hábiles desde la separación del trabajador para poner a tu disposición el finiquito y el pago íntegro."
+    ],
+    chatResponses: {
+      plazo: "El empleador tiene 10 días hábiles para entregarte el finiquito. Tú tienes 60 días hábiles para reclamar en la Inspección del Trabajo.",
+      documento: "Necesitas tu carta de despido, contrato de trabajo y certificado de cotizaciones de AFP pagadas al día.",
+      descuento: "Muchas empresas intentan descontarte lo aportado a la AFC (Seguro de Cesantía). Los tribunales suelen declarar este descuento improcedente si el despido es injustificado.",
+      default: "Un despido genera mucha incertidumbre, pero la ley te protege. Usa nuestra calculadora para verificar que no te paguen de menos y no olvides copiar el Escudo de Reserva de Derechos al firmar."
+    },
+    severanceBreakdown: {
+      sueldoBase: "$700.000",
+      anosComputables: 3,
+      indemnizacionAnos: "$2.100.000",
+      indemnizacionAvisoPrevio: "$700.000",
+      feriadoProporcional: "$350.000",
+      descuentoAfcAporte: "$0",
+      totalEstimado: "$3.150.000",
+      textoReserva: "Me reservo expresamente el derecho a demandar y reclamar ante la Dirección del Trabajo y Tribunales de Justicia por: despido injustificado, descuento indebido de aporte a la AFC, diferencias en feriado proporcional y cotizaciones pendientes.",
+      aplicaIndemnizacionAnos: true,
+      aplicaAvisoPrevio: true
+    }
   }
 };
 

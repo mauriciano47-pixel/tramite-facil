@@ -77,6 +77,25 @@ export function clasificarTexto(textVal = "") {
     return "pgu";
   }
 
+  // Detección de Finiquitos Laborales y Cartas de Despido (Prioridad sobre sueldo general)
+  if (
+    textLower.includes("finiquito") ||
+    textLower.includes("carta de despido") ||
+    textLower.includes("término de contrato") ||
+    textLower.includes("termino de contrato") ||
+    textLower.includes("término de la relación laboral") ||
+    textLower.includes("termino de la relacion laboral") ||
+    textLower.includes("necesidades de la empresa") ||
+    textLower.includes("artículo 161") ||
+    textLower.includes("articulo 161") ||
+    textLower.includes("art. 161") ||
+    textLower.includes("años de servicio") ||
+    textLower.includes("anos de servicio") ||
+    textLower.includes("despido")
+  ) {
+    return "finiquito";
+  }
+
   // Detección de liquidaciones de sueldo / remuneraciones laborales
   if (
     textLower.includes("sueldo") ||
@@ -160,6 +179,9 @@ export function clasificarArchivo(fileName = "") {
   }
   if (nameLower.includes("poder") || nameLower.includes("mandato") || nameLower.includes("autoriza")) {
     return "poder";
+  }
+  if (nameLower.includes("finiquito") || nameLower.includes("despido") || nameLower.includes("termino_contrato")) {
+    return "finiquito";
   }
   if (nameLower.includes("sueldo") || nameLower.includes("nomina") || nameLower.includes("remunerac")) {
     return "sueldo";

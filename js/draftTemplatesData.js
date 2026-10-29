@@ -603,6 +603,84 @@ En [CIUDAD], a [FECHA ACTUAL].
 Firma del Propietario/a / Adulto Mayor: ____________________________________
 RUT: [TU RUT]`
     },
+    finiquito: {
+      prorroga: `ACTA DE RESERVA DE DERECHOS EN FINIQUITO LABORAL (LEY 21.361)
+[TEXTO PARA ESCRIBIR DE PUÑO Y LETRA AL FIRMAR EN NOTARÍA O EN EL PORTAL DE LA DT]
+
+ANTE EL/LA MINISTRO/A DE FE (NOTARIO PÚBLICO O FUNCIONARIO DE LA DIRECCIÓN DEL TRABAJO)
+
+Yo, [TU NOMBRE Y APELLIDOS], Cédula de Identidad N° [TU RUT], en mi calidad de trabajador/a, vengo en suscribir el finiquito de fecha [FECHA DEL FINIQUITO] con la empresa [NOMBRE DE LA EMPRESA O EMPLEADOR], RUT N° [RUT EMPRESA], dejando constancia formal y expresa de la siguiente:
+
+CLÁUSULA DE RESERVA DE DERECHOS:
+"Me reservo expresamente el derecho a accionar, demandar y reclamar ante los Tribunales de Justicia competentes y ante la Inspección del Trabajo por:
+1. La causal de despido invocada (por considerarla injustificada, indebida o improcedente conforme al Código del Trabajo).
+2. El descuento indebido y no procedente efectuado por concepto de aporte patronal al Seguro de Cesantía (AFC).
+3. Las diferencias existentes en el cálculo de indemnización por años de servicio, remuneración íntegra y feriado legal/proporcional no compensado.
+4. Las horas extraordinarias y cotizaciones previsionales pendientes de pago durante la vigencia de la relación laboral."
+
+La presente manifestación de disconformidad se realiza al amparo del artículo 177 del Código del Trabajo, modificado por la Ley N° 21.361, que consagra el derecho inalienable del trabajador a estampar reserva de derechos sin que el empleador pueda condicionar o retener el pago de las sumas reconocidas.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma del Trabajador/a: ____________________________________
+RUT: [TU RUT]`,
+
+      justificantes: `RECLAMO FORMAL POR DESCUENTO INDEBIDO DE APORTE PATRONAL A LA AFC
+A: GERENCIA DE RECURSOS HUMANOS / ADMINISTRACIÓN DE [NOMBRE DE LA EMPRESA]
+RUT EMPRESA: [RUT DE LA EMPRESA]
+
+DATOS DEL/LA TRABAJADOR/A:
+Nombre Completo: [TU NOMBRE Y APELLIDOS]
+Cédula de Identidad: [TU RUT]
+Domicilio: [TU DIRECCIÓN COMPLETA]
+Teléfono: [TU TELÉFONO]
+
+ASUNTO: Impugnación y solicitud de restitución por retención improcedente de aporte a la AFC en finiquito
+
+De mi consideración:
+Por medio de la presente, y en el marco del término de mi contrato de trabajo por la causal de 'Necesidades de la Empresa' (Art. 161 del Código del Trabajo), vengo en solicitar la restitución formal e íntegra del monto descontado de mi finiquito por la suma de $[MONTO DESCONTADO POR AFC], bajo la glosa de aporte del empleador a la Administradora de Fondos de Cesantía (AFC).
+
+Al respecto, fundo esta petición en la jurisprudencia uniforme y reiterada de la Excelentísima Corte Suprema de Justicia, la cual ha dictaminado que cuando la causal de necesidades de la empresa no responde a un motivo objetivo o se encuentra controvertida, dicho descuento carece de causa legal y constituye un enriquecimiento sin causa en perjuicio del trabajador desvinculado.
+
+Por lo anterior, solicito que dicho monto sea liquidado y transferido a mi cuenta dentro del plazo legal de 10 días que establece el artículo 177 del Código del Trabajo, reservándome el derecho a formular la denuncia respectiva ante la Inspección del Trabajo.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]
+RUT: [TU RUT]`,
+
+      descargo: `DENUNCIA Y RECLAMO POR DESPIDO INJUSTIFICADO Y DIFERENCIAS EN FINIQUITO
+A LA INSPECCIÓN DEL TRABAJO DE: [COMUNA O CIUDAD]
+
+DATOS DEL/LA DENUNCIANTE (TRABAJADOR/A):
+Nombre Completo: [TU NOMBRE Y APELLIDOS]
+Cédula de Identidad: [TU RUT]
+Domicilio: [TU DIRECCIÓN COMPLETA]
+Teléfono: [TU TELÉFONO] - Correo: [TU CORREO ELECTRÓNICO]
+
+DATOS DE LA PARTE EMPLEADORA:
+Razón Social: [NOMBRE O RAZÓN SOCIAL DE LA EMPRESA]
+RUT Empresa: [RUT EMPLEADOR]
+Domicilio Laboral: [DIRECCIÓN DONDE TRABAJASTE]
+Representante Legal: [NOMBRE DEL REPRESENTANTE, SI SE CONOCE]
+
+MOTIVO DEL RECLAMO:
+1. Que con fecha [FECHA DE DESPIDO], se me notificó el término de mi relación laboral tras prestar servicios durante [NÚMERO DE AÑOS] años y [NÚMERO DE MESES] meses, invocándose la causal de 'Necesidades de la Empresa'.
+2. Que considero que dicha causal es injustificada e improcedente, habida cuenta de que las funciones desempeñadas continúan realizándose por otro personal.
+3. Que en la propuesta de finiquito existen graves diferencias en los montos ofrecidos por concepto de:
+   a) Años de servicio y remuneración computable.
+   b) Días de feriado proporcional pendientes no contabilizados.
+   c) Descuentos ilegales aplicados sobre mi liquidación final.
+
+PETICIÓN:
+Solicito se cite a la parte empleadora a audiencia de conciliación a fin de que reconozca la improcedencia del despido y proceda al pago del recargo legal del 30% establecido en el artículo 168 letra a) del Código del Trabajo, más las sumas adeudadas.
+
+En [CIUDAD], a [FECHA ACTUAL].
+
+Firma: ____________________________________
+[TU NOMBRE Y APELLIDOS]`
+    },
 };
 
 export default DRAFT_TEMPLATES;
